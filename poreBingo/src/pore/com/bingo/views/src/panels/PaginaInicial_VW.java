@@ -40,11 +40,11 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
 
-        jButton2.setText("jButton1");
+        jButton2.setText("Listar Cartelas");
 
-        jButton3.setText("jButton3");
+        jButton3.setText("Editar Cartela");
 
-        jButton4.setText("jButton4");
+        jButton4.setText("Realizar Sorteio");
 
         jButton5.setText("jButton5");
 
