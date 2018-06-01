@@ -1,4 +1,4 @@
-package pore.com.bingo.util;
+package pore.com.bingo.util.funcoes;
 
 import java.awt.Component;
 
@@ -7,6 +7,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
+import pore.com.bingo.util.ValidadorUniversal;
 
 public class FuncoesSwing {
 	

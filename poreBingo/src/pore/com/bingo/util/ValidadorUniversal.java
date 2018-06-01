@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import pore.com.bingo.util.funcoes.FuncoesNumeros;
+
 public class ValidadorUniversal {
 	@SuppressWarnings("rawtypes")
 	public static boolean isListaPreenchida(List lista)

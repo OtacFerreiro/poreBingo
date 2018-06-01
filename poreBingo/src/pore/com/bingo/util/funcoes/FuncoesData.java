@@ -1,4 +1,4 @@
-package pore.com.bingo.util;
+package pore.com.bingo.util.funcoes;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

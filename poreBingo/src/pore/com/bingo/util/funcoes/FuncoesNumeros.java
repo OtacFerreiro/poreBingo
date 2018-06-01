@@ -1,6 +1,8 @@
-package pore.com.bingo.util;
+package pore.com.bingo.util.funcoes;
 
 import java.text.ParseException;
+
+import pore.com.bingo.util.ValidadorUniversal;
 
 public class FuncoesNumeros {
 	public static double getNumeroNDigitosDecimais(String i, int n)

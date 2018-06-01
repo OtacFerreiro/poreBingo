@@ -1,5 +1,6 @@
 package pore.com.bingo.controllers;
 
+import java.awt.Window;
 import java.util.ArrayList;
 
 import pore.com.bingo.model.cartela.Cartela;
@@ -19,12 +20,12 @@ public class PaginaInicial_Controller extends ControllerSwing {
 		qdadeBolasPorCartela = 0;
 	}
 
-	public PaginaInicial_VW getTela() {
+	public Window getTela() {
 		return tela;
 	}
 
 	public void listarCartela() {
-		ListarCartela_VW listarCartela = new ListarCartela_VW();
+		ListarCartela_VW listarCartela = new ListarCartela_VW(tela, true);
 		listarCartela.setVisible(true);
 
 		while(listarCartela.isVisible()) {};

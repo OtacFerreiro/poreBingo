@@ -8,7 +8,7 @@ package pore.com.bingo.views.src.panels;
 import java.io.File;
 
 import pore.com.bingo.controllers.PaginaInicial_Controller;
-import pore.com.bingo.util.FuncoesData;
+import pore.com.bingo.util.funcoes.FuncoesData;
 
 /**
  *
@@ -49,22 +49,21 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelMenuBotoes = new javax.swing.JPanel();
         jButtonListarCartela = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        jButtonEditarCartela = new javax.swing.JButton();
+        jButtonIniciarSorteio = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItemListar = new javax.swing.JMenuItem();
+        jMenuItemEditar = new javax.swing.JMenuItem();
+        jMenuItemSorteio = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
+        jPanelMenuBotoes.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
 
         jButtonListarCartela.setText("Listar Cartelas");
         jButtonListarCartela.addActionListener(new java.awt.event.ActionListener() {
@@ -73,72 +72,89 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Editar Cartela");
+        jButtonEditarCartela.setText("Editar Cartela");
 
-        jButton4.setText("Iniciar Sorteio");
+        jButtonIniciarSorteio.setText("Iniciar Sorteio");
 
-        jButton5.setText("Importar Cartelas");
+        javax.swing.GroupLayout jPanelMenuBotoesLayout = new javax.swing.GroupLayout(jPanelMenuBotoes);
+        jPanelMenuBotoes.setLayout(jPanelMenuBotoesLayout);
+        jPanelMenuBotoesLayout.setHorizontalGroup(
+            jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMenuBotoesLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(167, 167, 167)
+                .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
+        );
+        jPanelMenuBotoesLayout.setVerticalGroup(
+            jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMenuBotoesLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+            .addGap(0, 338, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelMenuBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 344, Short.MAX_VALUE))
+                .addComponent(jPanelMenuBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jMenuBar.setBackground(new java.awt.Color(204, 204, 255));
+        jMenuBar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jMenu1.setText("Menu");
 
-        jMenuItem4.setText("Listar Cartelas");
-        jMenu1.add(jMenuItem4);
+        jMenuItemListar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        jMenuItemListar.setText("Listar Cartelas");
+        jMenuItemListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemListarActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemListar);
 
-        jMenuItem3.setText("Editar Cartela");
-        jMenu1.add(jMenuItem3);
+        jMenuItemEditar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        jMenuItemEditar.setText("Editar Cartela");
+        jMenu1.add(jMenuItemEditar);
 
-        jMenuItem2.setText("Importar Cartelas");
-        jMenu1.add(jMenuItem2);
+        jMenuItemSorteio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        jMenuItemSorteio.setText("Iniciar Sorteio");
+        jMenu1.add(jMenuItemSorteio);
 
-        jMenuItem5.setText("Iniciar Sorteio");
-        jMenu1.add(jMenuItem5);
-
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
         jMenuItem1.setText("Sair");
         jMenu1.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar.add(jMenu1);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,6 +174,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
     	controller.listarCartela();
     }//GEN-LAST:event_jButtonListarCartelaActionPerformed
 
+    private void jMenuItemListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListarActionPerformed
+        controller.listarCartela();
+    }//GEN-LAST:event_jMenuItemListarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -170,18 +190,17 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButtonEditarCartela;
+    private javax.swing.JButton jButtonIniciarSorteio;
     private javax.swing.JButton jButtonListarCartela;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItemEditar;
+    private javax.swing.JMenuItem jMenuItemListar;
+    private javax.swing.JMenuItem jMenuItemSorteio;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelMenuBotoes;
     // End of variables declaration//GEN-END:variables
 }
