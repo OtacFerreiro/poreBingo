@@ -8,6 +8,7 @@ package pore.com.bingo.views.src.panels;
 import java.io.File;
 
 import pore.com.bingo.controllers.PaginaInicial_Controller;
+import pore.com.bingo.util.FuncoesData;
 
 /**
  *
@@ -25,27 +26,17 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         initComponents();
         
         controller = new PaginaInicial_Controller(this);
+        controller.inicializarPastas();        
         
-        File dirBingo = new File(PaginaInicial_Controller.CAMINHO_DIR_PADRAO);
-        File dirLog = new File(PaginaInicial_Controller.CAMINHO_DIR_LOG);
-        File dirCartelas = new File(PaginaInicial_Controller.CAMINHO_DIR_CARTELAS);
-        File dirSorteio = new File(PaginaInicial_Controller.CAMINHO_DIR_SORTEIO);
-        
-        if(!dirBingo.exists()) {
-        	dirBingo.mkdirs();
-        }
-        
-        if(!dirLog.exists()) {
-        	dirLog.mkdirs();
-        }
-        
-        if(!dirCartelas.exists()) {
-        	dirCartelas.mkdirs();
-        }
-        
-        if(!dirSorteio.exists()) {
-        	dirSorteio.mkdirs();
-        }
+        String arquivoLog = PaginaInicial_Controller.CAMINHO_DIR_LOG + File.separator + "log_" + FuncoesData.formatarDataHoraParaNomeArquivo(new java.util.Date()) + ".txt";
+
+    	try {
+    		java.io.PrintStream print = new java.io.PrintStream(new java.io.File(arquivoLog));
+    		System.setOut(print);
+    		System.setErr(print);
+    	} catch (java.io.FileNotFoundException e) {
+    		e.printStackTrace();
+    	}
     }
 
     /**
@@ -59,7 +50,7 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        jButtonListarCartela = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -75,7 +66,12 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
 
-        jButton2.setText("Listar Cartelas");
+        jButtonListarCartela.setText("Listar Cartelas");
+        jButtonListarCartela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListarCartelaActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Editar Cartela");
 
@@ -89,10 +85,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(78, 78, 78)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -103,7 +99,7 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -158,35 +154,15 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonListarCartelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarCartelaActionPerformed
+    	controller.listarCartela();
+    }//GEN-LAST:event_jButtonListarCartelaActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PaginaInicial_VW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PaginaInicial_VW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PaginaInicial_VW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PaginaInicial_VW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+    	java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PaginaInicial_VW().setVisible(true);
             }
@@ -194,10 +170,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButtonListarCartela;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

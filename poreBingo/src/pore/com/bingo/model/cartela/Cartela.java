@@ -1,8 +1,10 @@
 package pore.com.bingo.model.cartela;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pore.com.bingo.model.ObjetoGenerico;
+import pore.com.bingo.util.ValidadorUniversal;
 
 public class Cartela extends ObjetoGenerico {
 
@@ -29,6 +31,10 @@ public class Cartela extends ObjetoGenerico {
 	}
 
 	public List<NumeroCartela> getNumeros() {
+		if(!ValidadorUniversal.isListaPreenchida(numeros)) {
+			numeros = new ArrayList<NumeroCartela>();
+		}
+		
 		return numeros;
 	}
 

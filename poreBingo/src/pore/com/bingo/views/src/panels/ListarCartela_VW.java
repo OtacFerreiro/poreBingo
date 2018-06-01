@@ -5,6 +5,8 @@
  */
 package pore.com.bingo.views.src.panels;
 
+import pore.com.bingo.controllers.ListarCartela_Controller;
+
 /**
  *
  * @author Otacilio
@@ -12,11 +14,15 @@ package pore.com.bingo.views.src.panels;
 @SuppressWarnings("serial")
 public class ListarCartela_VW extends javax.swing.JFrame {
 
+	protected ListarCartela_Controller controller;
+	
     /**
      * Creates new form ListarCartela_VW
      */
     public ListarCartela_VW() {
         initComponents();
+        
+        controller = new ListarCartela_Controller(this);
     }
 
     /**
