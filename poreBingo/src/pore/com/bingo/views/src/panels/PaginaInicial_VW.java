@@ -85,6 +85,7 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         });
 
         jButtonIniciarSorteio.setText("Iniciar Sorteio");
+        jButtonIniciarSorteio.setEnabled(false);
 
         javax.swing.GroupLayout jPanelMenuBotoesLayout = new javax.swing.GroupLayout(jPanelMenuBotoes);
         jPanelMenuBotoes.setLayout(jPanelMenuBotoesLayout);
@@ -183,6 +184,7 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonListarCartelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarCartelaActionPerformed

@@ -25,7 +25,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 	public ListarCartela_Controller(final ListarCartela_VW listar_VW) {
 		tela = listar_VW;
-		
+
 		tela.jTextFieldNumero.setText("");
 		tela.jTextFieldPortador.setText("");		
 	}
@@ -35,22 +35,22 @@ public class ListarCartela_Controller extends ControllerSwing {
 	}
 
 	public void pesquisarCartelas() {
-		
+
 		int numeroCartela = 0;
 		String portador = "";
-		
+
 		if(ValidadorUniversal.check(tela.jTextFieldNumero.getText()) && ValidadorUniversal.isIntegerPositivo(tela.jTextFieldNumero.getText())) {
 			numeroCartela = Integer.parseInt(tela.jTextFieldNumero.getText());
 		}
-		
+
 		if(ValidadorUniversal.check(tela.jTextFieldPortador.getText())) {
 			portador = tela.jTextFieldPortador.getText();
 		}
-		
+
 		if(numeroCartela > 0 || ValidadorUniversal.check(portador)) {
 			if(ValidadorUniversal.isListaPreenchida(cartelas)) {
 				List<Cartela> cartelasPesquisadas = new ArrayList<Cartela>();
-				
+
 				for(Cartela cartela: cartelas) {
 					if(numeroCartela > 0) {
 						if(cartela.getNumeroCartela() == numeroCartela) {
@@ -66,15 +66,15 @@ public class ListarCartela_Controller extends ControllerSwing {
 						}
 					}
 				}
-				
+
 				if(!ValidadorUniversal.isListaPreenchida(cartelasPesquisadas)) {
 					cartelasPesquisadas.addAll(cartelas);
 				}
-				
+
 				preencherTabela(cartelasPesquisadas);			
 			} else {
 				FuncoesSwing.mostrarMensagemAtencao(tela, "O sistema nao possui cartelas importadas.");
-				
+
 				return;
 			}
 		} else {
@@ -82,7 +82,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 				preencherTabela(cartelas);
 			} else {
 				FuncoesSwing.mostrarMensagemAtencao(tela, "O sistema nao possui cartelas importadas.");
-				
+
 				return;
 			}
 		}
@@ -94,170 +94,206 @@ public class ListarCartela_Controller extends ControllerSwing {
 	 *  */
 	public void importarCartelas() {
 
-		qdadeBolasPorCartela = FuncoesSwing.getMensagemInt(tela, "Configuração das Cartelas", "Quantas bolas cada cartela possui?");
+		boolean importarCartelas = true;
 
-		if(qdadeBolasPorCartela > 0) {
-			JFileChooser chooser = new JFileChooser();
+		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+			int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Aviso", "Uma importacao ja foi realizada no sistema. Deseja adicionar novas cartelas?");
 
-			int returnVal = chooser.showOpenDialog(tela);
+			if(resp == FuncoesSwing.NAO) {
+				importarCartelas = false;
 
-			File file = null;
+				return;
+			}
+		}
 
-			if(returnVal == JFileChooser.APPROVE_OPTION) {     
-				file = chooser.getSelectedFile();    
+		if(importarCartelas) {
+
+			if(qdadeBolasPorCartela > 0) {
+				int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Configuracao das Cartelas", "As cartelas importadas ja possuem uma quantidade padrão de bolas (" + qdadeBolasPorCartela + "). Deseja continuar?");
+
+				if(resp == FuncoesSwing.NAO) {
+					return;
+				}
+			} else {
+				qdadeBolasPorCartela = FuncoesSwing.getMensagemInt(tela, "Configuração das Cartelas", "Quantas bolas cada cartela possui?");				
 			}
 
-			if(file != null) {
-				importarArquivoCartelasGenerico(file);
-				
-				if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-					gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
-					
-					System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas importadas com sucesso.");
-					FuncoesSwing.mostrarMensagemSucesso(tela, "Cartelas importadas com sucesso.");
 
-					preencherTabela(cartelas);
-				} else {
-					System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas nao foram importadas.");
-					FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Ocorreu um erro e o arquivo nao pode ser importador.");
+			if(qdadeBolasPorCartela > 0) {
+				JFileChooser chooser = new JFileChooser();
+
+				int returnVal = chooser.showOpenDialog(tela);
+
+				File file = null;
+
+				if(returnVal == JFileChooser.APPROVE_OPTION) {     
+					file = chooser.getSelectedFile();    
+				}
+
+				if(file != null) {
+					importarArquivoCartelasGenerico(file);
+
+					if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+						gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
+
+						System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas importadas com sucesso.");
+						FuncoesSwing.mostrarMensagemSucesso(tela, "Cartelas importadas com sucesso.");
+
+						preencherTabela(cartelas);
+					} else {
+						System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas nao foram importadas.");
+						FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Ocorreu um erro e o arquivo nao pode ser importador.");
+					}
 				}
 			}
 		}		
 	}
 
+	public void removerImportacao() {
+		int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Aviso", "Deseja remover todas as importacoes do sistema?");
+
+		if(resp == FuncoesSwing.SIM) {
+			cartelas = new ArrayList<Cartela>();
+			qdadeBolasPorCartela = 0;
+
+			preencherTabela(cartelas);
+		}
+	}
+
 	@SuppressWarnings("serial")
 	public void preencherTabela(List<Cartela> cartelas) {
 
-		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-			int quantidadeItens = cartelas.size();
-			
-			tela.jLabelValorTotal.setText(String.valueOf(quantidadeItens));
+		int quantidadeItens = 0;
 
-			Object dados[][] = new Object[quantidadeItens][4];
-			String colunas[] = new String[]{
-					"Nº da Cartela", "Portador", "Editar", "Remover"
+		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+			quantidadeItens = cartelas.size();
+		}
+
+		tela.jLabelValorTotal.setText(String.valueOf(quantidadeItens));
+
+		Object dados[][] = new Object[quantidadeItens][4];
+		String colunas[] = new String[]{
+				"Nº da Cartela", "Portador", "Editar", "Remover"
+		};
+
+		for(int i = 0 ; i < quantidadeItens; i++)
+		{
+			dados[i][2] = Boolean.FALSE;
+			dados[i][3] = Boolean.FALSE;
+		}
+
+		DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
+			boolean[] canEdit = new boolean [] {
+					false, false, true, true
 			};
-			
-			for(int i = 0 ; i < quantidadeItens; i++)
-			{
-				dados[i][2] = Boolean.FALSE;
-				dados[i][3] = Boolean.FALSE;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+					String.class, String.class, Boolean.class, Boolean.class
+			};
+
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+				return types [columnIndex];
 			}
 
-			DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
-				boolean[] canEdit = new boolean [] {
-						false, false, true, true
-				};
-				@SuppressWarnings("rawtypes")
-				Class[] types = new Class [] {
-						String.class, String.class, Boolean.class, Boolean.class
-				};
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit [columnIndex];
+			}
 
-				@SuppressWarnings({ "unchecked", "rawtypes" })
-				public Class getColumnClass(int columnIndex) {
-					return types [columnIndex];
-				}
+			@SuppressWarnings("static-access")
+			@Override
+			public void setValueAt(Object aValue, int row, int column) {
+				super.setValueAt(aValue, row, column);
 
-				public boolean isCellEditable(int rowIndex, int columnIndex) {
-					return canEdit [columnIndex];
-				}
+				if(aValue instanceof Boolean && (boolean)aValue && (column == 2 || column == 3)) {
+					if(column == 2) {
+						CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
 
-				@SuppressWarnings("static-access")
-				@Override
-				public void setValueAt(Object aValue, int row, int column) {
-					super.setValueAt(aValue, row, column);
-					
-					if(aValue instanceof Boolean && (boolean)aValue && (column == 2 || column == 3)) {
-						if(column == 2) {
+						String numeroCartela = celula.getDado();
+
+						if(ValidadorUniversal.check(numeroCartela)) {								
+							Cartela cartela = null;
+
+							if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+								for(Cartela cartelaCadastrada: cartelas) {
+									if(cartelaCadastrada.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+										cartela = cartelaCadastrada;
+										break;
+									}
+								}
+
+								if(cartela != null) {
+									tela.jTableListaCartelas.setValueAt(false, row, column);
+
+									EditarCartela_VW editarCartela = new EditarCartela_VW(tela, true);
+									editarCartela.controller.setCartelaEditada(cartela);
+									editarCartela.setVisible(true);
+
+									while(editarCartela.isVisible()) {};
+
+									preencherTabela(cartelas);
+								}
+							}		
+						}
+					} else if(column == 3) {
+						int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover esta cartela?");
+
+						if(resp == FuncoesSwing.SIM) {
 							CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
-							
+
 							String numeroCartela = celula.getDado();
-							
-							if(ValidadorUniversal.check(numeroCartela)) {								
-								Cartela cartela = null;
-								
-								if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-									for(Cartela cartelaCadastrada: cartelas) {
-										if(cartelaCadastrada.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
-											cartela = cartelaCadastrada;
-											break;
-										}
-									}
-									
-									if(cartela != null) {
+
+							if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+								for(int i = 0; i < cartelas.size(); i++) {
+									if(cartelas.get(i).getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+										cartelas.remove(i);
+
 										tela.jTableListaCartelas.setValueAt(false, row, column);
-										
-										EditarCartela_VW editarCartela = new EditarCartela_VW(tela, true);
-										editarCartela.controller.setCartelaEditada(cartela);
-										editarCartela.setVisible(true);
-										
-										while(editarCartela.isVisible()) {};
-										
+
+										gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
+
+										FuncoesSwing.mostrarMensagemSucesso(tela, "Cartela removida com sucesso");
+
 										preencherTabela(cartelas);
-									}
-								}		
-							}
-						} else if(column == 3) {
-							int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover esta cartela?");
-							
-							if(resp == FuncoesSwing.SIM) {
-								CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
-								
-								String numeroCartela = celula.getDado();
-								
-								if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-									for(int i = 0; i < cartelas.size(); i++) {
-										if(cartelas.get(i).getNumeroCartela() == Integer.parseInt(numeroCartela)) {
-											cartelas.remove(i);
-											
-											tela.jTableListaCartelas.setValueAt(false, row, column);
-											
-											gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
-											
-											FuncoesSwing.mostrarMensagemSucesso(tela, "Cartela removida com sucesso");
-											
-											preencherTabela(cartelas);
-											
-											break;
-										}
+
+										break;
 									}
 								}
 							}
 						}
 					}
 				}
-			};	 
-
-			tela.jTableListaCartelas.setModel(modelo);
-			
-			tela.jTableListaCartelas.getColumnModel().getColumn(0).setPreferredWidth(50);
-			tela.jTableListaCartelas.getColumnModel().getColumn(0).setCellRenderer(new CenterAlignmentCellRenderer());
-			tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(250);
-			tela.jTableListaCartelas.getColumnModel().getColumn(1).setCellRenderer(new CenterAlignmentCellRenderer());
-			tela.jTableListaCartelas.getColumnModel().getColumn(2).setPreferredWidth(30);
-			tela.jTableListaCartelas.getColumnModel().getColumn(3).setPreferredWidth(30);
-			
-			for(int i = 0 ; i < quantidadeItens; i++)
-			{
-				Color cor = new Color(255,255,255);
-
-				if(ValidadorUniversal.check(cartelas.get(i).getPortador())){
-					cor = new Color(160,214,189);
-				} else {
-					cor = new Color(255,255,120);
-				}
-
-				CellType celula1 = new CellType();
-				celula1.setCor(cor);
-				celula1.setDado(String.valueOf(cartelas.get(i).getNumeroCartela()));
-				modelo.setValueAt(celula1, i, 0);
-
-				CellType celula2 = new CellType();
-				celula2.setCor(cor);
-				celula2.setDado(cartelas.get(i).getPortador());
-				modelo.setValueAt(celula2, i, 1);
 			}
+		};	 
+
+		tela.jTableListaCartelas.setModel(modelo);
+
+		tela.jTableListaCartelas.getColumnModel().getColumn(0).setPreferredWidth(50);
+		tela.jTableListaCartelas.getColumnModel().getColumn(0).setCellRenderer(new CenterAlignmentCellRenderer());
+		tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(250);
+		tela.jTableListaCartelas.getColumnModel().getColumn(1).setCellRenderer(new CenterAlignmentCellRenderer());
+		tela.jTableListaCartelas.getColumnModel().getColumn(2).setPreferredWidth(30);
+		tela.jTableListaCartelas.getColumnModel().getColumn(3).setPreferredWidth(30);
+
+		for(int i = 0 ; i < quantidadeItens; i++)
+		{
+			Color cor = new Color(255,255,255);
+
+			if(ValidadorUniversal.check(cartelas.get(i).getPortador())){
+				cor = new Color(160,214,189);
+			} else {
+				cor = new Color(255,255,120);
+			}
+
+			CellType celula1 = new CellType();
+			celula1.setCor(cor);
+			celula1.setDado(String.valueOf(cartelas.get(i).getNumeroCartela()));
+			modelo.setValueAt(celula1, i, 0);
+
+			CellType celula2 = new CellType();
+			celula2.setCor(cor);
+			celula2.setDado(cartelas.get(i).getPortador());
+			modelo.setValueAt(celula2, i, 1);
 		}
 	}
-
 }

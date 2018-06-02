@@ -52,6 +52,7 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemImportar = new javax.swing.JMenuItem();
+        jMenuItemRemoverImportacao = new javax.swing.JMenuItem();
         jMenuItemSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -199,6 +200,14 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         });
         jMenu1.add(jMenuItemImportar);
 
+        jMenuItemRemoverImportacao.setText("Limpar Lista de Cartelas");
+        jMenuItemRemoverImportacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRemoverImportacaoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemRemoverImportacao);
+
         jMenuItemSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
         jMenuItemSair.setText("Sair");
         jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
@@ -228,6 +237,7 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemImportarActionPerformed
@@ -241,6 +251,10 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
+
+    private void jMenuItemRemoverImportacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRemoverImportacaoActionPerformed
+        controller.removerImportacao();
+    }//GEN-LAST:event_jMenuItemRemoverImportacaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,6 +283,7 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemImportar;
+    private javax.swing.JMenuItem jMenuItemRemoverImportacao;
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelTopo;
