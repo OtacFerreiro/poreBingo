@@ -6,6 +6,7 @@
 package pore.com.bingo.views.src.panels;
 
 import javax.swing.JDialog;
+
 import pore.com.bingo.controllers.ListarCartela_Controller;
 
 /**
@@ -46,6 +47,8 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListaCartelas = new javax.swing.JTable();
+        jLabelTotal = new javax.swing.JLabel();
+        jLabelValorTotal = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemImportar = new javax.swing.JMenuItem();
@@ -53,7 +56,6 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar Cartela");
-        setPreferredSize(new java.awt.Dimension(500, 600));
         setResizable(false);
 
         jPanelTopo.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
@@ -70,8 +72,10 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
             }
         });
 
+        jLabelNumero.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNumero.setText("NUMERO:");
 
+        jLabelPortador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelPortador.setText("PORTADOR:");
 
         jTextFieldNumero.setText("jTextField1");
@@ -117,29 +121,34 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTableListaCartelas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jTableListaCartelas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Numero Cartela", "Portador", "Editar", "Remover"
+                "Nº Cartela", "Portador", "Editar", "Remover"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTableListaCartelas.setColumnSelectionAllowed(true);
+        jTableListaCartelas.setRowSelectionAllowed(false);
+        jTableListaCartelas.getTableHeader().setResizingAllowed(false);
         jTableListaCartelas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableListaCartelas);
-        jTableListaCartelas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableListaCartelas.getColumnModel().getColumnCount() > 0) {
             jTableListaCartelas.getColumnModel().getColumn(0).setResizable(false);
             jTableListaCartelas.getColumnModel().getColumn(1).setResizable(false);
@@ -147,17 +156,33 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
             jTableListaCartelas.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        jLabelTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelTotal.setText("Total:");
+
+        jLabelValorTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelValorTotal.setText("0");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(jLabelValorTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 34, Short.MAX_VALUE))
         );
 
         jMenuBar.setBackground(new java.awt.Color(204, 204, 255));
@@ -199,8 +224,7 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelTopo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,7 +251,7 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
     			JDialog dialog = new ListarCartela_VW(new javax.swing.JFrame(), true);
     			dialog.addWindowListener(new java.awt.event.WindowAdapter() {
     				public void windowClosing(java.awt.event.WindowEvent e) {
-    					dialog.dispose();
+    					System.exit(0);
     				}
     			});
     			dialog.setVisible(true);
@@ -240,6 +264,8 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
     private javax.swing.JLabel jLabelNumero;
     private javax.swing.JLabel jLabelPortador;
     private javax.swing.JLabel jLabelTopo;
+    private javax.swing.JLabel jLabelTotal;
+    public javax.swing.JLabel jLabelValorTotal;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemImportar;

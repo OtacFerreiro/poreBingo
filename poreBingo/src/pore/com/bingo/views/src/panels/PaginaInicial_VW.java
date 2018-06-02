@@ -62,7 +62,7 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("BINGO PORÉ");
+        setTitle("BINGO PORE");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setName("paginaInicial"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -78,6 +78,11 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         });
 
         jButtonEditarCartela.setText("Editar Cartela");
+        jButtonEditarCartela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarCartelaActionPerformed(evt);
+            }
+        });
 
         jButtonIniciarSorteio.setText("Iniciar Sorteio");
 
@@ -88,9 +93,9 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
             .addGroup(jPanelMenuBotoesLayout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
                 .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(167, 167, 167)
+                .addGap(157, 157, 157)
                 .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
         );
@@ -191,6 +196,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButtonEditarCartelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarCartelaActionPerformed
+        controller.editarCartela();
+    }//GEN-LAST:event_jButtonEditarCartelaActionPerformed
 
     /**
      * @param args the command line arguments

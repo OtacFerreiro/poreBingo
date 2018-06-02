@@ -1,7 +1,6 @@
 package pore.com.bingo.model.cartela;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import pore.com.bingo.model.ObjetoGenerico;
 import pore.com.bingo.util.ValidadorUniversal;
@@ -12,6 +11,8 @@ public class Cartela extends ObjetoGenerico {
 	
 	private String portador;
 	
+	private LinkedList<NumeroCartela> numeros;
+
 	public String getPortador() {
 		return portador;
 	}
@@ -20,7 +21,6 @@ public class Cartela extends ObjetoGenerico {
 		this.portador = portador;
 	}
 
-	private List<NumeroCartela> numeros;
 
 	public int getNumeroCartela() {
 		return numeroCartela;
@@ -30,15 +30,15 @@ public class Cartela extends ObjetoGenerico {
 		this.numeroCartela = numeroCartela;
 	}
 
-	public List<NumeroCartela> getNumeros() {
+	public LinkedList<NumeroCartela> getNumeros() {
 		if(!ValidadorUniversal.isListaPreenchida(numeros)) {
-			numeros = new ArrayList<NumeroCartela>();
+			numeros = new LinkedList<NumeroCartela>();
 		}
 		
 		return numeros;
 	}
 
-	public void setNumeros(List<NumeroCartela> numeros) {
+	public void setNumeros(LinkedList<NumeroCartela> numeros) {
 		this.numeros = numeros;
 	}
 }

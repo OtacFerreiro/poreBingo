@@ -1,6 +1,7 @@
 package pore.com.bingo.controllers;
 
 import java.awt.Window;
+import java.io.File;
 import java.util.ArrayList;
 
 import pore.com.bingo.model.cartela.Cartela;
@@ -17,9 +18,23 @@ public class PaginaInicial_Controller extends ControllerSwing {
 
 	public PaginaInicial_Controller(final PaginaInicial_VW paginaInicial_VW) {
 		tela = paginaInicial_VW;
-		
-		cartelas = new ArrayList<Cartela>();
+		cartelas = new ArrayList<Cartela>();			
 		qdadeBolasPorCartela = 0;
+		
+		File fileCartelas = new File(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
+		
+		if(fileCartelas.exists()) {
+			importarArquivoCartelasSistema(fileCartelas);
+			
+		} else {
+			fileCartelas = new File(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
+			
+			if(fileCartelas.exists()) {
+				importarArquivoCartelasSistema(fileCartelas);
+				
+			}			
+		}
+		
 	}
 
 	public Window getTela() {
@@ -62,8 +77,7 @@ public class PaginaInicial_Controller extends ControllerSwing {
 			}			
 		} else {
 			FuncoesSwing.mostrarMensagemAtencao(tela, "Numero invalido.");
-		}
-		
+		}		
 	}
 
 	public void realizarSorteio() {

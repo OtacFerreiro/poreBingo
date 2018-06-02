@@ -2,10 +2,8 @@ package pore.com.bingo.controllers;
 
 import java.awt.Color;
 import java.awt.Window;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +11,6 @@ import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 import pore.com.bingo.model.cartela.Cartela;
-import pore.com.bingo.model.cartela.NumeroCartela;
 import pore.com.bingo.util.ValidadorUniversal;
 import pore.com.bingo.util.funcoes.FuncoesData;
 import pore.com.bingo.util.funcoes.FuncoesSwing;
@@ -38,15 +35,57 @@ public class ListarCartela_Controller extends ControllerSwing {
 	}
 
 	public void pesquisarCartelas() {
-		if(!ValidadorUniversal.isIntegerPositivo(tela.jTextFieldNumero.getText())) {
-			System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Numero de cartela invalido.");
-
-			FuncoesSwing.mostrarMensagemSucesso(tela, "Numero de cartela invalido.");
-
-			return;
+		
+		int numeroCartela = 0;
+		String portador = "";
+		
+		if(ValidadorUniversal.check(tela.jTextFieldNumero.getText()) && ValidadorUniversal.isIntegerPositivo(tela.jTextFieldNumero.getText())) {
+			numeroCartela = Integer.parseInt(tela.jTextFieldNumero.getText());
 		}
+		
+		if(ValidadorUniversal.check(tela.jTextFieldPortador.getText())) {
+			portador = tela.jTextFieldPortador.getText();
+		}
+		
+		if(numeroCartela > 0 || ValidadorUniversal.check(portador)) {
+			if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+				List<Cartela> cartelasPesquisadas = new ArrayList<Cartela>();
+				
+				for(Cartela cartela: cartelas) {
+					if(numeroCartela > 0) {
+						if(cartela.getNumeroCartela() == numeroCartela) {
+							cartelasPesquisadas.add(cartela);
 
+							break;						
+						}
+					} else if(ValidadorUniversal.check(portador) && ValidadorUniversal.check(cartela.getPortador())) {
+						if(cartela.getPortador().contains(portador)) {
+							cartelasPesquisadas.add(cartela);
 
+							break;								
+						}
+					}
+				}
+				
+				if(!ValidadorUniversal.isListaPreenchida(cartelasPesquisadas)) {
+					cartelasPesquisadas.addAll(cartelas);
+				}
+				
+				preencherTabela(cartelasPesquisadas);			
+			} else {
+				FuncoesSwing.mostrarMensagemAtencao(tela, "O sistema nao possui cartelas importadas.");
+				
+				return;
+			}
+		} else {
+			if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+				preencherTabela(cartelas);
+			} else {
+				FuncoesSwing.mostrarMensagemAtencao(tela, "O sistema nao possui cartelas importadas.");
+				
+				return;
+			}
+		}
 	}
 
 	/*
@@ -69,54 +108,20 @@ public class ListarCartela_Controller extends ControllerSwing {
 			}
 
 			if(file != null) {
-				BufferedReader in = null;
-				try {
-					in = new BufferedReader(new FileReader(file));
+				importarArquivoCartelasGenerico(file);
+				
+				if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+					gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
+					
+					System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas importadas com sucesso.");
+					FuncoesSwing.mostrarMensagemSucesso(tela, "Cartelas importadas com sucesso.");
 
-					String line = in.readLine();
-
-					while(ValidadorUniversal.check(line)){
-						line = line.trim();
-
-						String [] cartelaArray = line.split("  -  ");
-
-						if(ValidadorUniversal.isArrayPreenchido(cartelaArray)) {							
-							String [] numeros = cartelaArray[1].split(" ");
-
-							if(ValidadorUniversal.isArrayPreenchido(numeros)) {
-								Cartela cartela = new Cartela();
-								cartela.setNumeroCartela(Integer.parseInt(cartelaArray[0]));
-
-								for(int i = 0; i < numeros.length; i++) {
-									NumeroCartela numCartela = new NumeroCartela();
-									numCartela.setCartela(cartela);
-									numCartela.setNumero(numeros[i]);
-
-									cartela.getNumeros().add(numCartela);
-								}
-
-								if(cartela.getNumeros().size() == qdadeBolasPorCartela) {
-									System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartela Nº" + cartela.getNumeroCartela() + ": numero de bolas corresponde a quantidade informada informado.");
-
-								} else {
-									System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartela Nº" + cartela.getNumeroCartela() + ": numero de bolas nao corresponde a quantidade informada informado.");
-								}
-
-								cartelas.add(cartela);								
-							}
-						}
-
-						line = in.readLine();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}				
+					preencherTabela(cartelas);
+				} else {
+					System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas nao foram importadas.");
+					FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Ocorreu um erro e o arquivo nao pode ser importador.");
+				}
 			}
-
-			System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas importadas com sucesso.");
-			FuncoesSwing.mostrarMensagemSucesso(tela, "Cartelas importadas com sucesso.");
-			
-			preencherTabela(cartelas);
 		}		
 	}
 
@@ -125,8 +130,10 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
 			int quantidadeItens = cartelas.size();
+			
+			tela.jLabelValorTotal.setText(String.valueOf(quantidadeItens));
 
-			Object dados[][] = new Object[quantidadeItens][7];
+			Object dados[][] = new Object[quantidadeItens][4];
 			String colunas[] = new String[]{
 					"Nº da Cartela", "Portador", "Editar", "Remover"
 			};
@@ -178,11 +185,15 @@ public class ListarCartela_Controller extends ControllerSwing {
 									}
 									
 									if(cartela != null) {
+										tela.jTableListaCartelas.setValueAt(false, row, column);
+										
 										EditarCartela_VW editarCartela = new EditarCartela_VW(tela, true);
 										editarCartela.controller.setCartelaEditada(cartela);
 										editarCartela.setVisible(true);
 										
 										while(editarCartela.isVisible()) {};
+										
+										preencherTabela(cartelas);
 									}
 								}		
 							}
@@ -190,14 +201,22 @@ public class ListarCartela_Controller extends ControllerSwing {
 							int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover esta cartela?");
 							
 							if(resp == FuncoesSwing.SIM) {
-								String numeroCartela = (String) tela.jTableListaCartelas.getValueAt(row, 0);
+								CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
+								
+								String numeroCartela = celula.getDado();
 								
 								if(ValidadorUniversal.isListaPreenchida(cartelas)) {
 									for(int i = 0; i < cartelas.size(); i++) {
 										if(cartelas.get(i).getNumeroCartela() == Integer.parseInt(numeroCartela)) {
 											cartelas.remove(i);
 											
+											tela.jTableListaCartelas.setValueAt(false, row, column);
+											
+											gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
+											
 											FuncoesSwing.mostrarMensagemSucesso(tela, "Cartela removida com sucesso");
+											
+											preencherTabela(cartelas);
 											
 											break;
 										}
@@ -216,9 +235,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 			tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(250);
 			tela.jTableListaCartelas.getColumnModel().getColumn(1).setCellRenderer(new CenterAlignmentCellRenderer());
 			tela.jTableListaCartelas.getColumnModel().getColumn(2).setPreferredWidth(30);
-			tela.jTableListaCartelas.getColumnModel().getColumn(2).setCellRenderer(new CenterAlignmentCellRenderer());
 			tela.jTableListaCartelas.getColumnModel().getColumn(3).setPreferredWidth(30);
-			tela.jTableListaCartelas.getColumnModel().getColumn(3).setCellRenderer(new CenterAlignmentCellRenderer());
 			
 			for(int i = 0 ; i < quantidadeItens; i++)
 			{
@@ -239,14 +256,6 @@ public class ListarCartela_Controller extends ControllerSwing {
 				celula2.setCor(cor);
 				celula2.setDado(cartelas.get(i).getPortador());
 				modelo.setValueAt(celula2, i, 1);
-				
-				CellType celula3 = new CellType();
-				celula3.setCor(cor);
-				modelo.setValueAt(celula3, i, 2);
-				
-				CellType celula4 = new CellType();
-				celula4.setCor(cor);
-				modelo.setValueAt(celula4, i, 3);
 			}
 		}
 	}

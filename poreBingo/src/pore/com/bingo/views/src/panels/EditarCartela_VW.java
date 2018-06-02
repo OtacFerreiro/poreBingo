@@ -70,11 +70,14 @@ public class EditarCartela_VW extends javax.swing.JDialog  {
         jLabel1.setText("CARTELA");
         jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
 
+        jLabelNumero.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNumero.setText("NUMERO:");
 
+        jLabelPortador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelPortador.setText("PORTADOR:");
 
         jTextFieldNumero.setText("jTextField1");
+        jTextFieldNumero.setEnabled(false);
 
         jTextFieldPortador.setText("jTextField2");
 
@@ -87,14 +90,14 @@ public class EditarCartela_VW extends javax.swing.JDialog  {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelPortador, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                            .addComponent(jLabelNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldPortador)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -115,19 +118,33 @@ public class EditarCartela_VW extends javax.swing.JDialog  {
 
         jPanel3.setPreferredSize(new java.awt.Dimension(550, 450));
 
+        jTableNumeros.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTableNumeros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Título 5"
+                "B", "I", "N", "G", "O"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableNumeros.getTableHeader().setResizingAllowed(false);
+        jTableNumeros.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableNumeros);
+        if (jTableNumeros.getColumnModel().getColumnCount() > 0) {
+            jTableNumeros.getColumnModel().getColumn(0).setResizable(false);
+            jTableNumeros.getColumnModel().getColumn(1).setResizable(false);
+            jTableNumeros.getColumnModel().getColumn(2).setResizable(false);
+            jTableNumeros.getColumnModel().getColumn(3).setResizable(false);
+            jTableNumeros.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jButtonConfirmar.setText("Confirmar");
         jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +159,7 @@ public class EditarCartela_VW extends javax.swing.JDialog  {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -210,7 +227,7 @@ public class EditarCartela_VW extends javax.swing.JDialog  {
             	JDialog dialog = new EditarCartela_VW(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        dialog.dispose();
+                        System.exit(0);
                     }
                 });
                 dialog.setVisible(true);
