@@ -4,6 +4,8 @@ import java.awt.Window;
 import java.util.ArrayList;
 
 import pore.com.bingo.model.cartela.Cartela;
+import pore.com.bingo.util.ValidadorUniversal;
+import pore.com.bingo.util.funcoes.FuncoesSwing;
 import pore.com.bingo.views.src.panels.EditarCartela_VW;
 import pore.com.bingo.views.src.panels.ListarCartela_VW;
 import pore.com.bingo.views.src.panels.PaginaInicial_VW;
@@ -31,11 +33,37 @@ public class PaginaInicial_Controller extends ControllerSwing {
 		while(listarCartela.isVisible()) {};
 	}
 
+	@SuppressWarnings("static-access")
 	public void editarCartela() {
-		EditarCartela_VW editarCartela = new EditarCartela_VW();
-		editarCartela.setVisible(true);
-
-		while(editarCartela.isVisible()) {};
+		
+		int numeroCartela = FuncoesSwing.getMensagemInt(tela, "Selecionar Cartela", "Qual o numero da cartela que deseja editar?");
+		
+		if(numeroCartela > 0) {
+			
+			Cartela cartela = null;
+			
+			if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+				for(Cartela cartelaCadastrada: cartelas) {
+					if(cartelaCadastrada.getNumeroCartela() == numeroCartela) {
+						cartela = cartelaCadastrada;
+					}
+				}
+				
+				if(cartela != null) {
+					EditarCartela_VW editarCartela = new EditarCartela_VW(tela, true);
+					editarCartela.controller.setCartelaEditada(cartela);
+					editarCartela.setVisible(true);
+					
+					while(editarCartela.isVisible()) {};
+					
+				} else {
+					FuncoesSwing.mostrarMensagemErro(tela, "Erro Inesperado", "Não foi possível encontrar a cartela com a numeração informada.");
+				}
+			}			
+		} else {
+			FuncoesSwing.mostrarMensagemAtencao(tela, "Numero invalido.");
+		}
+		
 	}
 
 	public void realizarSorteio() {

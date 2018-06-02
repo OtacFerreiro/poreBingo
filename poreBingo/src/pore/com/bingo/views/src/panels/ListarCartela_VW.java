@@ -52,6 +52,9 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         jMenuItemSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Listar Cartela");
+        setPreferredSize(new java.awt.Dimension(500, 600));
+        setResizable(false);
 
         jPanelTopo.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
 
@@ -126,15 +129,20 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTableListaCartelas.setColumnSelectionAllowed(true);
+        jTableListaCartelas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableListaCartelas);
+        jTableListaCartelas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTableListaCartelas.getColumnModel().getColumnCount() > 0) {
+            jTableListaCartelas.getColumnModel().getColumn(0).setResizable(false);
+            jTableListaCartelas.getColumnModel().getColumn(1).setResizable(false);
             jTableListaCartelas.getColumnModel().getColumn(2).setResizable(false);
             jTableListaCartelas.getColumnModel().getColumn(3).setResizable(false);
         }
@@ -168,6 +176,11 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
 
         jMenuItemSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
         jMenuItemSair.setText("Sair");
+        jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSairActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemSair);
 
         jMenuBar.add(jMenu1);
@@ -201,21 +214,25 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         controller.pesquisarCartelas();
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
+    private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItemSairActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-            	JDialog dialog = new ListarCartela_VW(new javax.swing.JFrame(), true);
-                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                     public void windowClosing(java.awt.event.WindowEvent e) {
-                         System.exit(0);
-                     }
-                 });
-                 dialog.setVisible(true);
-            }
-        });
+    	java.awt.EventQueue.invokeLater(new Runnable() {
+    		public void run() {
+    			JDialog dialog = new ListarCartela_VW(new javax.swing.JFrame(), true);
+    			dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+    				public void windowClosing(java.awt.event.WindowEvent e) {
+    					dialog.dispose();
+    				}
+    			});
+    			dialog.setVisible(true);
+    		}
+    	});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

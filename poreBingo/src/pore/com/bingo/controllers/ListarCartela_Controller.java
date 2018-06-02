@@ -19,6 +19,7 @@ import pore.com.bingo.util.funcoes.FuncoesData;
 import pore.com.bingo.util.funcoes.FuncoesSwing;
 import pore.com.bingo.util.table.CellType;
 import pore.com.bingo.util.table.CenterAlignmentCellRenderer;
+import pore.com.bingo.views.src.panels.EditarCartela_VW;
 import pore.com.bingo.views.src.panels.ListarCartela_VW;
 
 public class ListarCartela_Controller extends ControllerSwing {
@@ -29,8 +30,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 		tela = listar_VW;
 		
 		tela.jTextFieldNumero.setText("");
-		tela.jTextFieldPortador.setText("");
-		
+		tela.jTextFieldPortador.setText("");		
 	}
 
 	public Window getTela() {
@@ -139,11 +139,11 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 			DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
 				boolean[] canEdit = new boolean [] {
-						false, false, false, false
+						false, false, true, true
 				};
 				@SuppressWarnings("rawtypes")
 				Class[] types = new Class [] {
-						Integer.class, String.class, Boolean.class, Boolean.class
+						String.class, String.class, Boolean.class, Boolean.class
 				};
 
 				@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -155,17 +155,65 @@ public class ListarCartela_Controller extends ControllerSwing {
 					return canEdit [columnIndex];
 				}
 
+				@SuppressWarnings("static-access")
 				@Override
 				public void setValueAt(Object aValue, int row, int column) {
 					super.setValueAt(aValue, row, column);
+					
+					if(aValue instanceof Boolean && (boolean)aValue && (column == 2 || column == 3)) {
+						if(column == 2) {
+							CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
+							
+							String numeroCartela = celula.getDado();
+							
+							if(ValidadorUniversal.check(numeroCartela)) {								
+								Cartela cartela = null;
+								
+								if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+									for(Cartela cartelaCadastrada: cartelas) {
+										if(cartelaCadastrada.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+											cartela = cartelaCadastrada;
+											break;
+										}
+									}
+									
+									if(cartela != null) {
+										EditarCartela_VW editarCartela = new EditarCartela_VW(tela, true);
+										editarCartela.controller.setCartelaEditada(cartela);
+										editarCartela.setVisible(true);
+										
+										while(editarCartela.isVisible()) {};
+									}
+								}		
+							}
+						} else if(column == 3) {
+							int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover esta cartela?");
+							
+							if(resp == FuncoesSwing.SIM) {
+								String numeroCartela = (String) tela.jTableListaCartelas.getValueAt(row, 0);
+								
+								if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+									for(int i = 0; i < cartelas.size(); i++) {
+										if(cartelas.get(i).getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+											cartelas.remove(i);
+											
+											FuncoesSwing.mostrarMensagemSucesso(tela, "Cartela removida com sucesso");
+											
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			};	 
 
 			tela.jTableListaCartelas.setModel(modelo);
 			
 			tela.jTableListaCartelas.getColumnModel().getColumn(0).setPreferredWidth(50);
-			tela.jTableListaCartelas.getColumnModel().getColumn(1).setCellRenderer(new CenterAlignmentCellRenderer());
-			tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(120);
+			tela.jTableListaCartelas.getColumnModel().getColumn(0).setCellRenderer(new CenterAlignmentCellRenderer());
+			tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(250);
 			tela.jTableListaCartelas.getColumnModel().getColumn(1).setCellRenderer(new CenterAlignmentCellRenderer());
 			tela.jTableListaCartelas.getColumnModel().getColumn(2).setPreferredWidth(30);
 			tela.jTableListaCartelas.getColumnModel().getColumn(2).setCellRenderer(new CenterAlignmentCellRenderer());
