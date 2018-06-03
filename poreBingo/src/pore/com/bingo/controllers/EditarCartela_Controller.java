@@ -57,7 +57,7 @@ public class EditarCartela_Controller extends ControllerSwing {
 	}
 
 	public void confirmar() {
-		
+
 
 		if(!ValidadorUniversal.check(tela.jTextFieldNumero.getText())) {
 			FuncoesSwing.mostrarMensagemErro(tela, "Erro", "O numero da cartela é um campo obrigatorio.");
@@ -69,10 +69,10 @@ public class EditarCartela_Controller extends ControllerSwing {
 			boolean cartelaAlterada = false;
 
 			for(Cartela cartela: cartelas) {
-				
+
 				if(cartela.getNumeroCartela() == Integer.parseInt(tela.jTextFieldNumero.getText())) {	
 					cartelaAlterada = true;
-					
+
 					if(ValidadorUniversal.check(tela.jTextFieldPortador.getText())) {
 						cartela.setPortador(tela.jTextFieldPortador.getText());
 					}
@@ -95,18 +95,18 @@ public class EditarCartela_Controller extends ControllerSwing {
 							numero.setNumero(cell.getDado());						
 						}					
 					}
-					
+
 					gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
-					
+
 					FuncoesSwing.mostrarMensagemSucesso(tela, "Cartela alterada com sucesso");
 
 					break;
 				}			
 			}
-			
+
 			if(!cartelaAlterada) {
 				FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel encontrar a cartela com a numeracao selecionada.");
-				
+
 				return;
 			}
 
@@ -136,7 +136,7 @@ public class EditarCartela_Controller extends ControllerSwing {
 
 		DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
 			boolean[] canEdit = new boolean [] {
-					true, true, true, true, true
+					false, false, false, false, false
 			};
 			@SuppressWarnings("rawtypes")
 			Class[] types = new Class [] {
@@ -154,8 +154,10 @@ public class EditarCartela_Controller extends ControllerSwing {
 
 			@Override
 			public void setValueAt(Object aValue, int row, int column) {
+				super.setValueAt(aValue, row, column);
 
-				if(aValue instanceof CellType) {
+				//EDITAR AS BOLAS DA CARTELA
+				/*if(aValue instanceof CellType) {
 					CellType cell = (CellType)aValue;
 
 					if(ValidadorUniversal.isIntegerPositivo(cell.getDado())) {
@@ -175,7 +177,7 @@ public class EditarCartela_Controller extends ControllerSwing {
 
 						super.setValueAt("", row, column);
 					}
-				}
+				}*/
 			}
 		};	 
 
@@ -192,34 +194,48 @@ public class EditarCartela_Controller extends ControllerSwing {
 		tela.jTableNumeros.getColumnModel().getColumn(4).setPreferredWidth(100);
 		tela.jTableNumeros.getColumnModel().getColumn(4).setCellRenderer(new CenterAlignmentCellRenderer());
 
-		int numeroColuna = -1;
-		int numeroLinha = 0;
-
 		if(cartela != null && ValidadorUniversal.isListaPreenchida(cartela.getNumeros())) {
+			int qdadeBolasNaColuna = 0;
+			int numeroLinha = 0;
+			
 			for(NumeroCartela numero: cartela.getNumeros())
-			{
-				Color cor = new Color(255,255,255);
+			{		
+				if(qdadeBolasNaColuna == 5) {
+					qdadeBolasNaColuna = 1;
+					numeroLinha = 0;
+				} else {
+					qdadeBolasNaColuna++;
+				}
+
+				Color cor = new Color(160,214,189);
 
 				CellType celula = new CellType();
 				celula.setCor(cor);
 
 				if(ValidadorUniversal.check(numero.getNumero())) {
-					celula.setDado(String.valueOf(numero.getNumero()));
+					celula.setDado(numero.getNumero());
 
 				} else {
 					celula.setDado("");
 				}
 
-				if(numeroColuna == 4) {
-					numeroColuna = 0;
-					numeroLinha++;
-				} else {
-					numeroColuna++;
+				if(Integer.parseInt(numero.getNumero()) < 16) {
+					modelo.setValueAt(celula, numeroLinha++, COLUMN_B);
+
+				} else if(Integer.parseInt(numero.getNumero()) > 15 && Integer.parseInt(numero.getNumero()) < 31) {
+					modelo.setValueAt(celula, numeroLinha++, COLUMN_I);
+
+				} else if(Integer.parseInt(numero.getNumero()) > 30 && Integer.parseInt(numero.getNumero()) < 46) {
+					modelo.setValueAt(celula, numeroLinha++, COLUMN_N);
+
+				} else if(Integer.parseInt(numero.getNumero()) > 45 && Integer.parseInt(numero.getNumero()) < 61) {
+					modelo.setValueAt(celula, numeroLinha++, COLUMN_G);
+
+				} else if(Integer.parseInt(numero.getNumero()) > 60 && Integer.parseInt(numero.getNumero()) < 76) {
+					modelo.setValueAt(celula, numeroLinha++, COLUMN_O);
+
 				}
-
-				modelo.setValueAt(celula, numeroLinha, numeroColuna);
 			}
-
 		}
 	}
 

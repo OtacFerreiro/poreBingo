@@ -7,6 +7,8 @@ package pore.com.bingo.views.src.panels;
 
 import java.io.File;
 
+import javax.swing.JFrame;
+
 import pore.com.bingo.controllers.PaginaInicial_Controller;
 import pore.com.bingo.util.funcoes.FuncoesData;
 
@@ -50,10 +52,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanelMenuBotoes = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jButtonListarCartela = new javax.swing.JButton();
         jButtonEditarCartela = new javax.swing.JButton();
         jButtonIniciarSorteio = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemListar = new javax.swing.JMenuItem();
@@ -62,13 +64,15 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("BINGO PORE");
+        setTitle("BINGO PORÉ");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setName("paginaInicial"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setUndecorated(true);
         setResizable(false);
 
-        jPanelMenuBotoes.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
+        jPanelMenuBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButtonListarCartela.setText("Listar Cartelas");
         jButtonListarCartela.addActionListener(new java.awt.event.ActionListener() {
@@ -86,40 +90,51 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
 
         jButtonIniciarSorteio.setText("Iniciar Sorteio");
         jButtonIniciarSorteio.setEnabled(false);
+        jButtonIniciarSorteio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIniciarSorteioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(166, 166, 166)
+                .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanelMenuBotoesLayout = new javax.swing.GroupLayout(jPanelMenuBotoes);
         jPanelMenuBotoes.setLayout(jPanelMenuBotoesLayout);
         jPanelMenuBotoesLayout.setHorizontalGroup(
             jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuBotoesLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
-                .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(157, 157, 157)
-                .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelMenuBotoesLayout.setVerticalGroup(
             jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuBotoesLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 338, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(439, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -127,14 +142,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelMenuBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanelMenuBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanelMenuBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenuBar.setBackground(new java.awt.Color(204, 204, 255));
@@ -153,10 +164,20 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
 
         jMenuItemEditar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         jMenuItemEditar.setText("Editar Cartela");
+        jMenuItemEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEditarActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemEditar);
 
         jMenuItemSorteio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         jMenuItemSorteio.setText("Iniciar Sorteio");
+        jMenuItemSorteio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSorteioActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemSorteio);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
@@ -203,13 +224,31 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         controller.editarCartela();
     }//GEN-LAST:event_jButtonEditarCartelaActionPerformed
 
+    private void jMenuItemEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditarActionPerformed
+    	controller.editarCartela();
+    }//GEN-LAST:event_jMenuItemEditarActionPerformed
+
+    private void jButtonIniciarSorteioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIniciarSorteioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonIniciarSorteioActionPerformed
+
+    private void jMenuItemSorteioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSorteioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemSorteioActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
     	java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PaginaInicial_VW().setVisible(true);
+            	JFrame frame = new PaginaInicial_VW();
+            	frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+            	frame.setVisible(true);
             }
         });
     }

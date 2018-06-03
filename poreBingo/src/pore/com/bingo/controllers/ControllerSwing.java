@@ -19,6 +19,18 @@ import pore.com.bingo.util.ValidadorUniversal;
 import pore.com.bingo.util.funcoes.FuncoesData;
 
 public abstract class ControllerSwing {
+	
+	public static final int COLUMN_B = 0;
+	public static final int COLUMN_I = 1;
+	public static final int COLUMN_N = 2;
+	public static final int COLUMN_G = 3;
+	public static final int COLUMN_O = 4;
+	
+	public static final int NUMERO_MAX_B = 0;
+	public static final int NUMERO_MAX_I = 1;
+	public static final int NUMERO_MAX_N = 2;
+	public static final int NUMERO_MAX_G = 3;
+	public static final int NUMERO_MAX_O = 4;
 
 	public static String CAMINHO_DIR_PADRAO = File.separator + "poreBingo";
 	public static String CAMINHO_DIR_LOG = CAMINHO_DIR_PADRAO + File.separator + "log";
@@ -181,11 +193,11 @@ public abstract class ControllerSwing {
 				if(ValidadorUniversal.isArrayPreenchido(cartelaArray)) {
 					Cartela cartela = new Cartela();
 					
-					if(ValidadorUniversal.isIntegerPositivo(cartelaArray[1])) {
+					if(cartelaArray.length > 1 && ValidadorUniversal.isIntegerPositivo(cartelaArray[1])) {
 						cartela.setNumeroCartela(Integer.parseInt(cartelaArray[1]));
 					}
 					
-					if(cartelaArray.length > 1 && ValidadorUniversal.isIntegerPositivo(cartelaArray[2])) {
+					if(ValidadorUniversal.check(cartelaArray[2])) {
 						cartela.setPortador(cartelaArray[2]);
 					} else {
 						cartela.setPortador("");
