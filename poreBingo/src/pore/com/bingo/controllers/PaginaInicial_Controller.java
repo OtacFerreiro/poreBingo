@@ -10,7 +10,7 @@ import pore.com.bingo.util.funcoes.FuncoesSwing;
 import pore.com.bingo.views.src.panels.EditarCartela_VW;
 import pore.com.bingo.views.src.panels.ListarCartela_VW;
 import pore.com.bingo.views.src.panels.PaginaInicial_VW;
-import pore.com.bingo.views.src.panels.Sorteio_VW;
+import pore.com.bingo.views.src.panels.RealizarSorteio_VW;
 
 public class PaginaInicial_Controller extends ControllerSwing {
 
@@ -30,11 +30,9 @@ public class PaginaInicial_Controller extends ControllerSwing {
 			fileCartelas = new File(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
 			
 			if(fileCartelas.exists()) {
-				importarArquivoCartelasSistema(fileCartelas);
-				
+				importarArquivoCartelasSistema(fileCartelas);				
 			}			
-		}
-		
+		}		
 	}
 
 	public Window getTela() {
@@ -47,10 +45,16 @@ public class PaginaInicial_Controller extends ControllerSwing {
 
 		while(listarCartela.isVisible()) {};
 	}
+	
+	public void realizarSorteio() {
+		RealizarSorteio_VW sorteio = new RealizarSorteio_VW(tela, true);
+		sorteio.setVisible(true);
+
+		while(sorteio.isVisible()) {};
+	}
 
 	@SuppressWarnings("static-access")
-	public void editarCartela() {
-		
+	public void editarCartela() {		
 		int numeroCartela = FuncoesSwing.getMensagemInt(tela, "Selecionar Cartela", "Qual o numero da cartela que deseja editar?");
 		
 		if(numeroCartela > 0) {
@@ -79,12 +83,4 @@ public class PaginaInicial_Controller extends ControllerSwing {
 			FuncoesSwing.mostrarMensagemAtencao(tela, "Numero invalido.");
 		}		
 	}
-
-	public void realizarSorteio() {
-		Sorteio_VW sorteio = new Sorteio_VW();
-		sorteio.setVisible(true);
-
-		while(sorteio.isVisible()) {};
-	}
-
 }

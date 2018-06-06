@@ -229,11 +229,11 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemEditarActionPerformed
 
     private void jButtonIniciarSorteioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIniciarSorteioActionPerformed
-        // TODO add your handling code here:
+        controller.realizarSorteio();
     }//GEN-LAST:event_jButtonIniciarSorteioActionPerformed
 
     private void jMenuItemSorteioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSorteioActionPerformed
-        // TODO add your handling code here:
+    	controller.realizarSorteio();
     }//GEN-LAST:event_jMenuItemSorteioActionPerformed
 
     /**

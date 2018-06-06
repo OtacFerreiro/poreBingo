@@ -12,6 +12,7 @@ public class Cartela extends ObjetoGenerico {
 	private String portador;
 	
 	private LinkedList<NumeroCartela> numeros;
+	private LinkedList<NumeroCartela> numerosChamados;
 
 	public String getPortador() {
 		return portador;
@@ -41,4 +42,17 @@ public class Cartela extends ObjetoGenerico {
 	public void setNumeros(LinkedList<NumeroCartela> numeros) {
 		this.numeros = numeros;
 	}
+
+	public LinkedList<NumeroCartela> getNumerosChamados() {
+		if(!ValidadorUniversal.isListaPreenchida(numerosChamados)) {
+			numerosChamados = new LinkedList<NumeroCartela>();
+		}
+		
+		return numerosChamados;
+	}
+
+	public void setNumerosChamados(LinkedList<NumeroCartela> numerosChamados) {
+		this.numerosChamados = numerosChamados;
+	}
+
 }

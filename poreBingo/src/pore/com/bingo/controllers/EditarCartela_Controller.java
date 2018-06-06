@@ -7,7 +7,6 @@ import java.io.File;
 import javax.swing.table.DefaultTableModel;
 
 import pore.com.bingo.model.cartela.Cartela;
-import pore.com.bingo.model.cartela.NumeroCartela;
 import pore.com.bingo.util.ValidadorUniversal;
 import pore.com.bingo.util.funcoes.FuncoesSwing;
 import pore.com.bingo.util.table.CellType;
@@ -39,10 +38,7 @@ public class EditarCartela_Controller extends ControllerSwing {
 	public EditarCartela_Controller(final EditarCartela_VW editar_VW) {
 		tela = editar_VW;
 
-		tela.jTextFieldNumero.setText("");
-		tela.jTextFieldPortador.setText("");
-
-		cartelaEditada = new Cartela();
+		limparCampos();
 	}
 
 	public Window getTela() {
@@ -57,8 +53,6 @@ public class EditarCartela_Controller extends ControllerSwing {
 	}
 
 	public void confirmar() {
-
-
 		if(!ValidadorUniversal.check(tela.jTextFieldNumero.getText())) {
 			FuncoesSwing.mostrarMensagemErro(tela, "Erro", "O numero da cartela é um campo obrigatorio.");
 
@@ -73,28 +67,7 @@ public class EditarCartela_Controller extends ControllerSwing {
 				if(cartela.getNumeroCartela() == Integer.parseInt(tela.jTextFieldNumero.getText())) {	
 					cartelaAlterada = true;
 
-					if(ValidadorUniversal.check(tela.jTextFieldPortador.getText())) {
-						cartela.setPortador(tela.jTextFieldPortador.getText());
-					}
-
-					int numeroColuna = -1;
-					int numeroLinha = 0;
-
-					for(NumeroCartela numero: cartela.getNumeros()) {					
-						if(numeroColuna == 4) {
-							numeroColuna = 0;
-							numeroLinha++;
-
-						} else {
-							numeroColuna++;
-						}
-
-						CellType cell = (CellType) tela.jTableNumeros.getValueAt(numeroLinha, numeroColuna);
-
-						if(cell != null) {
-							numero.setNumero(cell.getDado());						
-						}					
-					}
+					cartela.setPortador(tela.jTextFieldPortador.getText());
 
 					gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
 
@@ -195,45 +168,64 @@ public class EditarCartela_Controller extends ControllerSwing {
 		tela.jTableNumeros.getColumnModel().getColumn(4).setCellRenderer(new CenterAlignmentCellRenderer());
 
 		if(cartela != null && ValidadorUniversal.isListaPreenchida(cartela.getNumeros())) {
-			int qdadeBolasNaColuna = 0;
-			int numeroLinha = 0;
+			int qdadeBolasB = 0;
+			int qdadeBolasI = 0;
+			int qdadeBolasN = 0;
+			int qdadeBolasG = 0;
+			int qdadeBolasO = 0;
 			
-			for(NumeroCartela numero: cartela.getNumeros())
-			{		
-				if(qdadeBolasNaColuna == 5) {
-					qdadeBolasNaColuna = 1;
-					numeroLinha = 0;
-				} else {
-					qdadeBolasNaColuna++;
-				}
-
+			int numeroLinhaB = 0;
+			int numeroLinhaI = 0;
+			int numeroLinhaN = 0;
+			int numeroLinhaG = 0;
+			int numeroLinhaO = 0;
+			
+			CellType celula = null;
+			
+			for(int i = 0; i < cartela.getNumeros().size(); i++)
+			{
 				Color cor = new Color(160,214,189);
 
-				CellType celula = new CellType();
+				celula = new CellType();
 				celula.setCor(cor);
 
-				if(ValidadorUniversal.check(numero.getNumero())) {
-					celula.setDado(numero.getNumero());
+				if(ValidadorUniversal.check(cartela.getNumeros().get(i).getNumero())) {
+					celula.setDado(cartela.getNumeros().get(i).getNumero());
 
 				} else {
 					celula.setDado("");
-				}
+				}				
 
-				if(Integer.parseInt(numero.getNumero()) < 16) {
-					modelo.setValueAt(celula, numeroLinha++, COLUMN_B);
-
-				} else if(Integer.parseInt(numero.getNumero()) > 15 && Integer.parseInt(numero.getNumero()) < 31) {
-					modelo.setValueAt(celula, numeroLinha++, COLUMN_I);
-
-				} else if(Integer.parseInt(numero.getNumero()) > 30 && Integer.parseInt(numero.getNumero()) < 46) {
-					modelo.setValueAt(celula, numeroLinha++, COLUMN_N);
-
-				} else if(Integer.parseInt(numero.getNumero()) > 45 && Integer.parseInt(numero.getNumero()) < 61) {
-					modelo.setValueAt(celula, numeroLinha++, COLUMN_G);
-
-				} else if(Integer.parseInt(numero.getNumero()) > 60 && Integer.parseInt(numero.getNumero()) < 76) {
-					modelo.setValueAt(celula, numeroLinha++, COLUMN_O);
-
+				if(Integer.parseInt(cartela.getNumeros().get(i).getNumero()) < 16) {					
+					if(qdadeBolasB < 5) {
+						qdadeBolasB++;
+						
+						modelo.setValueAt(celula, numeroLinhaB++, COLUMN_B);
+					}
+				} else if(Integer.parseInt(cartela.getNumeros().get(i).getNumero()) > 15 && Integer.parseInt(cartela.getNumeros().get(i).getNumero()) < 31) {
+					if(qdadeBolasI < 5) {
+						qdadeBolasI++;
+						
+						modelo.setValueAt(celula, numeroLinhaI++, COLUMN_I);
+					}
+				} else if(Integer.parseInt(cartela.getNumeros().get(i).getNumero()) > 30 && Integer.parseInt(cartela.getNumeros().get(i).getNumero()) < 46) {					
+					if(qdadeBolasN < 5) {
+						qdadeBolasN++;
+						
+						modelo.setValueAt(celula, numeroLinhaN++, COLUMN_N);
+					}
+				} else if(Integer.parseInt(cartela.getNumeros().get(i).getNumero()) > 45 && Integer.parseInt(cartela.getNumeros().get(i).getNumero()) < 61) {					
+					if(qdadeBolasG < 5) {
+						qdadeBolasG++;
+						
+						modelo.setValueAt(celula, numeroLinhaG++, COLUMN_G);
+					}
+				} else if(Integer.parseInt(cartela.getNumeros().get(i).getNumero()) > 60 && Integer.parseInt(cartela.getNumeros().get(i).getNumero()) < 76) {
+					if(qdadeBolasO < 5) {
+						qdadeBolasO++;
+						
+						modelo.setValueAt(celula, numeroLinhaO++, COLUMN_O);
+					}
 				}
 			}
 		}

@@ -184,7 +184,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 		DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
 			boolean[] canEdit = new boolean [] {
-					false, false, true, true
+					false, true, true, true
 			};
 			@SuppressWarnings("rawtypes")
 			Class[] types = new Class [] {
@@ -204,8 +204,33 @@ public class ListarCartela_Controller extends ControllerSwing {
 			@Override
 			public void setValueAt(Object aValue, int row, int column) {
 				super.setValueAt(aValue, row, column);
+				
+				if(aValue instanceof String && ValidadorUniversal.check((String)aValue) && column == 1) {
+					CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
+					
+					String numeroCartela = celula.getDado();
+					
+					if(ValidadorUniversal.check(numeroCartela)) {								
+						Cartela cartela = null;
+						
+						if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+							for(Cartela cartelaCadastrada: cartelas) {
+								if(cartelaCadastrada.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+									cartela = cartelaCadastrada;
+									break;
+								}
+							}
+							
+							if(cartela != null) {
+								cartela.setPortador((String)aValue);
+								
+								gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
 
-				if(aValue instanceof Boolean && (boolean)aValue && (column == 2 || column == 3)) {
+								preencherTabela(cartelas);
+							}
+						}
+					}						
+				} else if(aValue instanceof Boolean && (boolean)aValue && (column == 2 || column == 3)) {
 					if(column == 2) {
 						CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
 
@@ -235,32 +260,38 @@ public class ListarCartela_Controller extends ControllerSwing {
 								}
 							}		
 						}
-					} else if(column == 3) {
-						int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover esta cartela?");
+					} else if(column == 3) {						
+						CellType celulaPortador = (CellType) tela.jTableListaCartelas.getValueAt(row, 1);
+						
+						String portador = celulaPortador.getDado();
+						
+						if(ValidadorUniversal.check(portador)) {
+							int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover o portador da cartela?");
 
-						if(resp == FuncoesSwing.SIM) {
-							CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
+							if(resp == FuncoesSwing.SIM) {
+								CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
 
-							String numeroCartela = celula.getDado();
+								String numeroCartela = celula.getDado();
 
-							if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-								for(int i = 0; i < cartelas.size(); i++) {
-									if(cartelas.get(i).getNumeroCartela() == Integer.parseInt(numeroCartela)) {
-										cartelas.remove(i);
+								if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+									for(Cartela cartela: cartelas) {
+										if(cartela.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+											cartela.setPortador("");
 
-										tela.jTableListaCartelas.setValueAt(false, row, column);
+											tela.jTableListaCartelas.setValueAt(false, row, column);
 
-										gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
+											gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
 
-										FuncoesSwing.mostrarMensagemSucesso(tela, "Cartela removida com sucesso");
+											preencherTabela(cartelas);
 
-										preencherTabela(cartelas);
-
-										break;
+											break;
+										}
 									}
 								}
 							}
-						}
+						} else {
+							tela.jTableListaCartelas.setValueAt(false, row, column);
+						}						
 					}
 				}
 			}

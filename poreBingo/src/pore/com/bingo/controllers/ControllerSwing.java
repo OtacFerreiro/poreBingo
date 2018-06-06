@@ -92,6 +92,8 @@ public abstract class ControllerSwing {
 
 	//CRIA O ARQUIVO DAS CARTELAS IMPORTADAS NO FORMATO DO SISTEMA
 	public void gerarArquivoCartelasImportadas(String caminho) {		
+		File cartelasImportadas = new File(caminho);
+
 		String cartelasImportadasTxt = "";
 		
 		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
@@ -107,8 +109,6 @@ public abstract class ControllerSwing {
 				cartelasImportadasTxt += "\n";
 			}
 		}
-
-		File cartelasImportadas = new File(caminho);
 		
 		try {
 			escreverArquivoUsandoFileChannel(cartelasImportadas, cartelasImportadasTxt);
@@ -250,4 +250,5 @@ public abstract class ControllerSwing {
 			throw new Exception("Erro de processamento de Entrada e Sa\u00EDda!");
 		}
 	}
+	
 }
