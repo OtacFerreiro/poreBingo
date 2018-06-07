@@ -48,6 +48,8 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         jTableListaCartelas = new javax.swing.JTable();
         jLabelTotal = new javax.swing.JLabel();
         jLabelValorTotal = new javax.swing.JLabel();
+        jLabelTotalPortador = new javax.swing.JLabel();
+        jLabelNumeroPortador = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemImportar = new javax.swing.JMenuItem();
@@ -56,7 +58,6 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("LISTAR CARTELAS");
-        setUndecorated(true);
         setResizable(false);
 
         jPanelTopo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -115,10 +116,16 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         }
 
         jLabelTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelTotal.setText("Total:");
+        jLabelTotal.setText("Total Listadas:");
 
         jLabelValorTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelValorTotal.setText("0");
+
+        jLabelTotalPortador.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelTotalPortador.setText("Total Portador:");
+
+        jLabelNumeroPortador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelNumeroPortador.setText("0");
 
         javax.swing.GroupLayout jPanelTopoLayout = new javax.swing.GroupLayout(jPanelTopo);
         jPanelTopo.setLayout(jPanelTopoLayout);
@@ -141,10 +148,14 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
                                 .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTopoLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabelTotalPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelNumeroPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelTopoLayout.setVerticalGroup(
@@ -166,9 +177,14 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelNumeroPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelTopoLayout.createSequentialGroup()
+                        .addGroup(jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelTotalPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jMenuBar.setBackground(new java.awt.Color(204, 204, 255));
@@ -257,9 +273,11 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JLabel jLabelNumero;
+    public javax.swing.JLabel jLabelNumeroPortador;
     private javax.swing.JLabel jLabelPortador;
     private javax.swing.JLabel jLabelTopo;
     private javax.swing.JLabel jLabelTotal;
+    private javax.swing.JLabel jLabelTotalPortador;
     public javax.swing.JLabel jLabelValorTotal;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;

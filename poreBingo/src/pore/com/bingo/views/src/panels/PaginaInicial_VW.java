@@ -67,7 +67,6 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         setTitle("BINGO PORÉ");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setName("paginaInicial"); // NOI18N
-        setUndecorated(true);
         setResizable(false);
 
         jPanelMenuBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -89,7 +88,6 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         });
 
         jButtonIniciarSorteio.setText("Iniciar Sorteio");
-        jButtonIniciarSorteio.setEnabled(false);
         jButtonIniciarSorteio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonIniciarSorteioActionPerformed(evt);

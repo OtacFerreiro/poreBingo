@@ -75,7 +75,6 @@
       <Color id="Cursor Padr&#xe3;o"/>
     </Property>
     <Property name="name" type="java.lang.String" value="paginaInicial" noResource="true"/>
-    <Property name="undecorated" type="boolean" value="true"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -210,7 +209,6 @@
                 <Component class="javax.swing.JButton" name="jButtonIniciarSorteio">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Iniciar Sorteio"/>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIniciarSorteioActionPerformed"/>

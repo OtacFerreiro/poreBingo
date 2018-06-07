@@ -24,13 +24,13 @@ public class PaginaInicial_Controller extends ControllerSwing {
 		File fileCartelas = new File(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
 		
 		if(fileCartelas.exists()) {
-			importarArquivoCartelasSistema(fileCartelas);
+			setCartelas(importarArquivoCartelasSistema(fileCartelas));
 			
 		} else {
 			fileCartelas = new File(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
 			
 			if(fileCartelas.exists()) {
-				importarArquivoCartelasSistema(fileCartelas);				
+				setCartelas(importarArquivoCartelasSistema(fileCartelas));				
 			}			
 		}		
 	}

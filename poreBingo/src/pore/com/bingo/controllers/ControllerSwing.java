@@ -31,6 +31,8 @@ public abstract class ControllerSwing {
 	public static final int NUMERO_MAX_N = 2;
 	public static final int NUMERO_MAX_G = 3;
 	public static final int NUMERO_MAX_O = 4;
+	
+	public static final int MAIOR_NUMERO_CARTELA = 75;
 
 	public static String CAMINHO_DIR_PADRAO = File.separator + "poreBingo";
 	public static String CAMINHO_DIR_LOG = CAMINHO_DIR_PADRAO + File.separator + "log";
@@ -39,6 +41,8 @@ public abstract class ControllerSwing {
 	public static String CAMINHO_DIR_CONFIG = CAMINHO_DIR_PADRAO + File.separator + "conf";
 
 	public static int qdadeBolasPorCartela;
+	
+	public static boolean sorteioIniciado = false;
 
 	public static List<Cartela> cartelas;
 
@@ -60,6 +64,14 @@ public abstract class ControllerSwing {
 
 	public static void setCartelas(List<Cartela> cartelas) {
 		ControllerSwing.cartelas = cartelas;
+	}
+
+	public static boolean isSorteioIniciado() {
+		return sorteioIniciado;
+	}
+
+	public static void setSorteioIniciado(boolean sorteioIniciado) {
+		ControllerSwing.sorteioIniciado = sorteioIniciado;
 	}
 
 	public void inicializarPastas() {
@@ -178,7 +190,9 @@ public abstract class ControllerSwing {
 	}
 	
 	//IMPORTA AS CARTELAS PARA O SISTEMA PELO ARQUIVO NO FORMATO DO SISTEMA
-	public void importarArquivoCartelasSistema(File file) {
+	public LinkedList<Cartela> importarArquivoCartelasSistema(File file) {
+		LinkedList<Cartela> cartelas = new LinkedList<Cartela>();
+		
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(file));
@@ -232,7 +246,9 @@ public abstract class ControllerSwing {
 			}					
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
+		
+		return cartelas;
 	}
 
 	// CONVERTENDO PARA UTF-8 (PARA GARANTIR) POIS O ENCODING DIFERENTE DO SISTEMA NAO PERMITIRA QUE O ARQUIVO SEJA LIDO CORRETAMENTE PELO MFE, MESMO COLOCANDO O ENCODING NO PROPRIO XML

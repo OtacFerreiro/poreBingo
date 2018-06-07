@@ -164,12 +164,20 @@ public class ListarCartela_Controller extends ControllerSwing {
 	public void preencherTabela(List<Cartela> cartelas) {
 
 		int quantidadeItens = 0;
+		int quantidadePortador = 0;
 
 		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
 			quantidadeItens = cartelas.size();
+			
+			for(Cartela cartela: cartelas) {
+				if(ValidadorUniversal.check(cartela.getPortador())) {
+					quantidadePortador++;
+				}
+			}
 		}
 
 		tela.jLabelValorTotal.setText(String.valueOf(quantidadeItens));
+		tela.jLabelNumeroPortador.setText(String.valueOf(quantidadePortador));
 
 		Object dados[][] = new Object[quantidadeItens][4];
 		String colunas[] = new String[]{
@@ -205,7 +213,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 			public void setValueAt(Object aValue, int row, int column) {
 				super.setValueAt(aValue, row, column);
 				
-				if(aValue instanceof String && ValidadorUniversal.check((String)aValue) && column == 1) {
+				if(aValue instanceof String && column == 1) {
 					CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
 					
 					String numeroCartela = celula.getDado();
@@ -222,7 +230,11 @@ public class ListarCartela_Controller extends ControllerSwing {
 							}
 							
 							if(cartela != null) {
-								cartela.setPortador((String)aValue);
+								if(ValidadorUniversal.check((String)aValue)) {
+									cartela.setPortador((String)aValue);
+								} else {
+									cartela.setPortador("");									
+								}
 								
 								gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
 

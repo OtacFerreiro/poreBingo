@@ -59,7 +59,6 @@ public class EditarCartela_VW extends javax.swing.JDialog  {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("EDITAR CARTELA");
-        setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(550, 600));
         setResizable(false);
 
