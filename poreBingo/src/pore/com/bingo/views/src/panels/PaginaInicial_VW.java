@@ -56,6 +56,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         jButtonListarCartela = new javax.swing.JButton();
         jButtonEditarCartela = new javax.swing.JButton();
         jButtonIniciarSorteio = new javax.swing.JButton();
+        jLabelTopo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabelVersion = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemListar = new javax.swing.JMenuItem();
@@ -71,23 +75,26 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
 
         jPanelMenuBotoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Menu"));
 
-        jButtonListarCartela.setText("Listar Cartelas");
+        jButtonListarCartela.setText("[F1] Listar Cartelas");
+        jButtonListarCartela.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonListarCartela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonListarCartelaActionPerformed(evt);
             }
         });
 
-        jButtonEditarCartela.setText("Editar Cartela");
+        jButtonEditarCartela.setText("[F2] Editar Cartela");
+        jButtonEditarCartela.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonEditarCartela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEditarCartelaActionPerformed(evt);
             }
         });
 
-        jButtonIniciarSorteio.setText("Iniciar Sorteio");
+        jButtonIniciarSorteio.setText("[F3] Iniciar Sorteio");
+        jButtonIniciarSorteio.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonIniciarSorteio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonIniciarSorteioActionPerformed(evt);
@@ -101,7 +108,7 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonListarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
                 .addComponent(jButtonEditarCartela, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(166, 166, 166)
                 .addComponent(jButtonIniciarSorteio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,21 +125,49 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabelTopo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelTopo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTopo.setText("Bem vindo ao Poré Bingo");
+        jLabelTopo.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), null));
+
+        jLabel1.setText("Versão:");
+
+        jLabelVersion.setText("-");
+
+        jLabel2.setText("Created by: Otacílio Vicente");
+
         javax.swing.GroupLayout jPanelMenuBotoesLayout = new javax.swing.GroupLayout(jPanelMenuBotoes);
         jPanelMenuBotoes.setLayout(jPanelMenuBotoesLayout);
         jPanelMenuBotoesLayout.setHorizontalGroup(
             jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuBotoesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelTopo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuBotoesLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMenuBotoesLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanelMenuBotoesLayout.setVerticalGroup(
             jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuBotoesLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(7, 7, 7)
+                .addGroup(jPanelMenuBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabelVersion))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelTopo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(439, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 335, Short.MAX_VALUE)
+                .addComponent(jLabel2))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -149,7 +184,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
         jMenuBar.setBackground(new java.awt.Color(204, 204, 255));
         jMenuBar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jMenu1.setBorder(null);
         jMenu1.setText("Menu");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenu1.setMargin(new java.awt.Insets(5, 5, 5, 5));
 
         jMenuItemListar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         jMenuItemListar.setText("Listar Cartelas");
@@ -255,6 +293,10 @@ public class PaginaInicial_VW extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditarCartela;
     private javax.swing.JButton jButtonIniciarSorteio;
     private javax.swing.JButton jButtonListarCartela;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelTopo;
+    public javax.swing.JLabel jLabelVersion;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;

@@ -3,13 +3,24 @@ package pore.com.bingo.controllers;
 import java.awt.Color;
 import java.awt.Window;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 import pore.com.bingo.model.cartela.Cartela;
 import pore.com.bingo.util.ValidadorUniversal;
 import pore.com.bingo.util.funcoes.FuncoesData;
@@ -35,7 +46,6 @@ public class ListarCartela_Controller extends ControllerSwing {
 	}
 
 	public void pesquisarCartelas() {
-
 		int numeroCartela = 0;
 		String portador = "";
 
@@ -93,7 +103,6 @@ public class ListarCartela_Controller extends ControllerSwing {
 	 * CODIGOCARTELA  -  NUMERO NUMERO NUMERO NUMERO [...] NUMERO  
 	 *  */
 	public void importarCartelas() {
-
 		boolean importarCartelas = true;
 
 		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
@@ -107,7 +116,6 @@ public class ListarCartela_Controller extends ControllerSwing {
 		}
 
 		if(importarCartelas) {
-
 			if(qdadeBolasPorCartela > 0) {
 				int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Configuracao das Cartelas", "As cartelas importadas ja possuem uma quantidade padrão de bolas (" + qdadeBolasPorCartela + "). Deseja continuar?");
 
@@ -117,7 +125,6 @@ public class ListarCartela_Controller extends ControllerSwing {
 			} else {
 				qdadeBolasPorCartela = FuncoesSwing.getMensagemInt(tela, "Configuração das Cartelas", "Quantas bolas cada cartela possui?");				
 			}
-
 
 			if(qdadeBolasPorCartela > 0) {
 				JFileChooser chooser = new JFileChooser();
@@ -160,6 +167,44 @@ public class ListarCartela_Controller extends ControllerSwing {
 		}
 	}
 
+	public void imprimirCartelas() {
+		if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+			Map<String, Object> parameters = new HashMap<>();
+			
+			for(int index = 0; index < tela.jTableListaCartelas.getRowCount(); index++) {
+				boolean checked = (boolean) tela.jTableListaCartelas.getValueAt(index, 0);
+				
+				if(checked) {
+					CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(index, 1);
+					
+					Optional<Cartela> cartelaOpt = cartelas.stream().
+						filter(cartela -> String.valueOf(cartela.getNumeroCartela()).equals(celula.getDado())).
+						findFirst();
+					
+					if(cartelaOpt.isPresent()) {
+						parameters.put(String.valueOf(celula.getDado()), cartelaOpt.get());
+					}
+					
+				}
+			}
+			
+			if(ValidadorUniversal.isMapPreenchido(parameters)) {
+				try {
+					JasperReport bingoBoardJR = JasperCompileManager.compileReport(getClass().getResourceAsStream(CAMINHO_BINGO_BOARD));
+					JasperPrint print = JasperFillManager.fillReport(bingoBoardJR, parameters);
+					
+					JasperViewer.viewReport(print, true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					
+				} finally {
+					
+				}
+			}
+		}
+	}
+	
 	@SuppressWarnings("serial")
 	public void preencherTabela(List<Cartela> cartelas) {
 
@@ -179,15 +224,16 @@ public class ListarCartela_Controller extends ControllerSwing {
 		tela.jLabelValorTotal.setText(String.valueOf(quantidadeItens));
 		tela.jLabelNumeroPortador.setText(String.valueOf(quantidadePortador));
 
-		Object dados[][] = new Object[quantidadeItens][4];
+		Object dados[][] = new Object[quantidadeItens][5];
 		String colunas[] = new String[]{
-				"Nº da Cartela", "Portador", "Editar", "Remover"
+				"", "Nº da Cartela", "Portador", "Editar", "Remover"
 		};
 
 		for(int i = 0 ; i < quantidadeItens; i++)
 		{
-			dados[i][2] = Boolean.FALSE;
-			dados[i][3] = Boolean.FALSE;
+			dados[i][1] = Boolean.FALSE;
+			dados[i][4] = Boolean.FALSE;
+			dados[i][5] = Boolean.FALSE;
 		}
 
 		DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
@@ -213,14 +259,17 @@ public class ListarCartela_Controller extends ControllerSwing {
 			public void setValueAt(Object aValue, int row, int column) {
 				super.setValueAt(aValue, row, column);
 				
-				if(aValue instanceof String && column == 1) {
+				if(aValue instanceof Boolean && column == 1) {
+					//TODO
+
+				} else if(aValue instanceof String && column == 2) {
 					CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
-					
+
 					String numeroCartela = celula.getDado();
-					
+
 					if(ValidadorUniversal.check(numeroCartela)) {								
 						Cartela cartela = null;
-						
+
 						if(ValidadorUniversal.isListaPreenchida(cartelas)) {
 							for(Cartela cartelaCadastrada: cartelas) {
 								if(cartelaCadastrada.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
@@ -228,22 +277,22 @@ public class ListarCartela_Controller extends ControllerSwing {
 									break;
 								}
 							}
-							
+
 							if(cartela != null) {
 								if(ValidadorUniversal.check((String)aValue)) {
 									cartela.setPortador((String)aValue);
 								} else {
 									cartela.setPortador("");									
 								}
-								
+
 								gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
 
 								preencherTabela(cartelas);
 							}
 						}
 					}						
-				} else if(aValue instanceof Boolean && (boolean)aValue && (column == 2 || column == 3)) {
-					if(column == 2) {
+				} else if(aValue instanceof Boolean && (boolean)aValue && (column == 4 || column == 5)) {
+					if(column == 4) {
 						CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
 
 						String numeroCartela = celula.getDado();
@@ -272,11 +321,11 @@ public class ListarCartela_Controller extends ControllerSwing {
 								}
 							}		
 						}
-					} else if(column == 3) {						
+					} else if(column == 5) {						
 						CellType celulaPortador = (CellType) tela.jTableListaCartelas.getValueAt(row, 1);
-						
+
 						String portador = celulaPortador.getDado();
-						
+
 						if(ValidadorUniversal.check(portador)) {
 							int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover o portador da cartela?");
 
@@ -311,12 +360,14 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 		tela.jTableListaCartelas.setModel(modelo);
 
-		tela.jTableListaCartelas.getColumnModel().getColumn(0).setPreferredWidth(50);
+		tela.jTableListaCartelas.getColumnModel().getColumn(0).setPreferredWidth(30);
 		tela.jTableListaCartelas.getColumnModel().getColumn(0).setCellRenderer(new CenterAlignmentCellRenderer());
-		tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(250);
+		tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(50);
 		tela.jTableListaCartelas.getColumnModel().getColumn(1).setCellRenderer(new CenterAlignmentCellRenderer());
-		tela.jTableListaCartelas.getColumnModel().getColumn(2).setPreferredWidth(30);
+		tela.jTableListaCartelas.getColumnModel().getColumn(2).setPreferredWidth(250);
+		tela.jTableListaCartelas.getColumnModel().getColumn(2).setCellRenderer(new CenterAlignmentCellRenderer());
 		tela.jTableListaCartelas.getColumnModel().getColumn(3).setPreferredWidth(30);
+		tela.jTableListaCartelas.getColumnModel().getColumn(4).setPreferredWidth(30);
 
 		for(int i = 0 ; i < quantidadeItens; i++)
 		{
