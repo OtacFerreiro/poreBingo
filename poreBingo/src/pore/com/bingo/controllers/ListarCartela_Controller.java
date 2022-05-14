@@ -3,12 +3,9 @@ package pore.com.bingo.controllers;
 import java.awt.Color;
 import java.awt.Window;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,14 +14,16 @@ import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 import pore.com.bingo.model.cartela.Cartela;
+import pore.com.bingo.util.ImpressaoArquivos;
 import pore.com.bingo.util.ValidadorUniversal;
 import pore.com.bingo.util.funcoes.FuncoesData;
 import pore.com.bingo.util.funcoes.FuncoesSwing;
+import pore.com.bingo.util.funcoes.TimeUtils;
 import pore.com.bingo.util.table.CellType;
 import pore.com.bingo.util.table.CenterAlignmentCellRenderer;
 import pore.com.bingo.views.src.panels.EditarCartela_VW;
@@ -113,6 +112,8 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 				return;
 			}
+			
+			cartelas = new ArrayList<Cartela>();
 		}
 
 		if(importarCartelas) {
@@ -138,18 +139,27 @@ public class ListarCartela_Controller extends ControllerSwing {
 				}
 
 				if(file != null) {
-					importarArquivoCartelasGenerico(file);
+					try {
+						importarArquivoCartelasGenerico(file);
+						
+					} catch (Exception e) {
+						FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel realizar a importacao das cartelas. Verifique o erro no arquivo de log.");
+					}
 
-					if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-						gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
-
-						System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas importadas com sucesso.");
-						FuncoesSwing.mostrarMensagemSucesso(tela, "Cartelas importadas com sucesso.");
-
-						preencherTabela(cartelas);
-					} else {
+					File fileCartelas = new File(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
+					
+					if(!fileCartelas.exists()) {
 						System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas nao foram importadas.");
 						FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Ocorreu um erro e o arquivo nao pode ser importador.");
+
+						return;
+					}
+					
+					System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas importadas com sucesso.");					
+					FuncoesSwing.mostrarMensagemSucesso(tela, "Cartelas importadas com sucesso.");
+					
+					if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+						preencherTabela(cartelas);
 					}
 				}
 			}
@@ -184,23 +194,30 @@ public class ListarCartela_Controller extends ControllerSwing {
 					if(cartelaOpt.isPresent()) {
 						parameters.put(String.valueOf(celula.getDado()), cartelaOpt.get());
 					}
-					
 				}
 			}
 			
-			if(ValidadorUniversal.isMapPreenchido(parameters)) {
-				try {
-					JasperReport bingoBoardJR = JasperCompileManager.compileReport(getClass().getResourceAsStream(CAMINHO_BINGO_BOARD));
-					JasperPrint print = JasperFillManager.fillReport(bingoBoardJR, parameters);
-					
-					JasperViewer.viewReport(print, true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-					
-				} finally {
-					
-				}
+			if(!ValidadorUniversal.isMapPreenchido(parameters)) {
+				FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel encontrar os parametros para impressao das cartelas. Verifique se as cartelas foram importadas corretamente");
+				
+				return;
+			}
+			
+			try {
+				String fileName = TimeUtils.getNow("yyyy-MM-dd'T'HH:mm:ss") + "_cartelas" + ".pdf";
+				String filePath = CAMINHO_DIR_IMP + File.separator + fileName;
+				
+				JasperReport bingoBoardJR = JasperCompileManager.compileReport(getClass().getResourceAsStream(CAMINHO_BINGO_BOARD));
+				JasperPrint print = JasperFillManager.fillReport(bingoBoardJR, parameters);
+				
+				JasperExportManager.exportReportToPdfFile(print, filePath);
+				
+				ImpressaoArquivos.imprimirPDF(filePath);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+				FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel imprimir as cartelas. Verifique o log de erro.");
 			}
 		}
 	}
@@ -231,9 +248,9 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 		for(int i = 0 ; i < quantidadeItens; i++)
 		{
-			dados[i][1] = Boolean.FALSE;
+			dados[i][0] = Boolean.FALSE;
+			dados[i][3] = Boolean.FALSE;
 			dados[i][4] = Boolean.FALSE;
-			dados[i][5] = Boolean.FALSE;
 		}
 
 		DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
@@ -259,10 +276,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 			public void setValueAt(Object aValue, int row, int column) {
 				super.setValueAt(aValue, row, column);
 				
-				if(aValue instanceof Boolean && column == 1) {
-					//TODO
-
-				} else if(aValue instanceof String && column == 2) {
+				if(aValue instanceof String && column == 2) {
 					CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
 
 					String numeroCartela = celula.getDado();
@@ -382,12 +396,12 @@ public class ListarCartela_Controller extends ControllerSwing {
 			CellType celula1 = new CellType();
 			celula1.setCor(cor);
 			celula1.setDado(String.valueOf(cartelas.get(i).getNumeroCartela()));
-			modelo.setValueAt(celula1, i, 0);
+			modelo.setValueAt(celula1, i, 1);
 
 			CellType celula2 = new CellType();
 			celula2.setCor(cor);
 			celula2.setDado(cartelas.get(i).getPortador());
-			modelo.setValueAt(celula2, i, 1);
+			modelo.setValueAt(celula2, i, 2);
 		}
 	}
 }

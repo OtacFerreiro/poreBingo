@@ -76,7 +76,7 @@ public class PaginaInicial_Controller extends ControllerSwing {
 					while(editarCartela.isVisible()) {};
 					
 				} else {
-					FuncoesSwing.mostrarMensagemErro(tela, "Erro Inesperado", "Não foi possível encontrar a cartela com a numeração informada.");
+					FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Não foi possível encontrar a cartela com a numeração informada.");
 				}
 			}			
 		} else {
