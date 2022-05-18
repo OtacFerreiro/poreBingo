@@ -244,11 +244,12 @@
                     <Column editable="false" title="Remover" type="java.lang.Boolean"/>
                   </Table>
                 </Property>
+                <Property name="cellSelectionEnabled" type="boolean" value="true"/>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                  <TableColumnModel selectionModel="2">
+                  <TableColumnModel selectionModel="3">
                     <Column maxWidth="30" minWidth="30" prefWidth="-1" resizable="true">
                       <Title/>
-                      <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor"/>
+                      <Editor/>
                       <Renderer/>
                     </Column>
                     <Column maxWidth="80" minWidth="80" prefWidth="-1" resizable="true">
@@ -274,7 +275,6 @@
                   </TableColumnModel>
                 </Property>
                 <Property name="columnSelectionAllowed" type="boolean" value="true"/>
-                <Property name="rowSelectionAllowed" type="boolean" value="false"/>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
                 </Property>

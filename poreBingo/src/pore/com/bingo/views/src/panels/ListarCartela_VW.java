@@ -105,16 +105,15 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
                 return canEdit [columnIndex];
             }
         });
+        jTableListaCartelas.setCellSelectionEnabled(true);
         jTableListaCartelas.setColumnSelectionAllowed(true);
-        jTableListaCartelas.setRowSelectionAllowed(false);
         jTableListaCartelas.getTableHeader().setResizingAllowed(false);
         jTableListaCartelas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableListaCartelas);
-        jTableListaCartelas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jTableListaCartelas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         if (jTableListaCartelas.getColumnModel().getColumnCount() > 0) {
             jTableListaCartelas.getColumnModel().getColumn(0).setMinWidth(30);
             jTableListaCartelas.getColumnModel().getColumn(0).setMaxWidth(30);
-            jTableListaCartelas.getColumnModel().getColumn(0).setCellEditor(null);
             jTableListaCartelas.getColumnModel().getColumn(1).setMinWidth(80);
             jTableListaCartelas.getColumnModel().getColumn(1).setMaxWidth(80);
             jTableListaCartelas.getColumnModel().getColumn(2).setResizable(false);

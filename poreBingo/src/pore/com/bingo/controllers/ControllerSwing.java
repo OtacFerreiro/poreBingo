@@ -43,7 +43,7 @@ public abstract class ControllerSwing {
 	public static String CAMINHO_DIR_CONFIG = CAMINHO_DIR_PADRAO + File.separator + "conf";
 	public static String CAMINHO_DIR_IMP = CAMINHO_DIR_PADRAO + File.separator + "impressoes";
 	
-	public static String CAMINHO_BINGO_BOARD = File.separator + "assets" + File.separator + "reports" + File.separator + "bingoBoard.jrxml";
+	public static String CAMINHO_BINGO_BOARD = "/pore/com/bingo/reports/bingoBoard.jrxml";
 
 	public static int qdadeBolasPorCartela;
 	

@@ -7,9 +7,18 @@ public class CellType {
 	
 	private String dado;
 	private int valor;
+	private boolean flag;
 	private Color cor;
 	private Font fonte;
 	
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+
 	public Font getFonte() {
 		return fonte;
 	}

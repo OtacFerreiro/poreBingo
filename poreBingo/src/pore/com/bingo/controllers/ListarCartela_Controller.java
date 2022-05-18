@@ -24,6 +24,7 @@ import pore.com.bingo.util.ValidadorUniversal;
 import pore.com.bingo.util.funcoes.FuncoesData;
 import pore.com.bingo.util.funcoes.FuncoesSwing;
 import pore.com.bingo.util.funcoes.TimeUtils;
+import pore.com.bingo.util.table.BooleanCellRenderer;
 import pore.com.bingo.util.table.CellType;
 import pore.com.bingo.util.table.CenterAlignmentCellRenderer;
 import pore.com.bingo.views.src.panels.EditarCartela_VW;
@@ -198,13 +199,13 @@ public class ListarCartela_Controller extends ControllerSwing {
 			}
 			
 			if(!ValidadorUniversal.isMapPreenchido(parameters)) {
-				FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel encontrar os parametros para impressao das cartelas. Verifique se as cartelas foram importadas corretamente");
+				FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel encontrar os parametros para impressao das cartelas.\nVerifique se as cartelas foram importadas corretamente.");
 				
 				return;
 			}
 			
 			try {
-				String fileName = TimeUtils.getNow("yyyy-MM-dd'T'HH:mm:ss") + "_cartelas" + ".pdf";
+				String fileName = TimeUtils.getNow("yyyyMMddHHmmss") + "_cartelas" + ".pdf";
 				String filePath = CAMINHO_DIR_IMP + File.separator + fileName;
 				
 				JasperReport bingoBoardJR = JasperCompileManager.compileReport(getClass().getResourceAsStream(CAMINHO_BINGO_BOARD));
@@ -212,7 +213,7 @@ public class ListarCartela_Controller extends ControllerSwing {
 				
 				JasperExportManager.exportReportToPdfFile(print, filePath);
 				
-				ImpressaoArquivos.imprimirPDF(filePath);
+				//ImpressaoArquivos.imprimirPDF(filePath);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -255,11 +256,11 @@ public class ListarCartela_Controller extends ControllerSwing {
 
 		DefaultTableModel modelo = new DefaultTableModel(dados, colunas){
 			boolean[] canEdit = new boolean [] {
-					false, true, true, true
+					true, false, true, true, true
 			};
 			@SuppressWarnings("rawtypes")
 			Class[] types = new Class [] {
-					String.class, String.class, Boolean.class, Boolean.class
+					Boolean.class, String.class, String.class, Boolean.class, Boolean.class
 			};
 
 			@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -276,38 +277,9 @@ public class ListarCartela_Controller extends ControllerSwing {
 			public void setValueAt(Object aValue, int row, int column) {
 				super.setValueAt(aValue, row, column);
 				
-				if(aValue instanceof String && column == 2) {
-					CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
-
-					String numeroCartela = celula.getDado();
-
-					if(ValidadorUniversal.check(numeroCartela)) {								
-						Cartela cartela = null;
-
-						if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-							for(Cartela cartelaCadastrada: cartelas) {
-								if(cartelaCadastrada.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
-									cartela = cartelaCadastrada;
-									break;
-								}
-							}
-
-							if(cartela != null) {
-								if(ValidadorUniversal.check((String)aValue)) {
-									cartela.setPortador((String)aValue);
-								} else {
-									cartela.setPortador("");									
-								}
-
-								gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
-
-								preencherTabela(cartelas);
-							}
-						}
-					}						
-				} else if(aValue instanceof Boolean && (boolean)aValue && (column == 4 || column == 5)) {
-					if(column == 4) {
-						CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
+				try {
+					if(aValue instanceof String && column == 2) {
+						CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 1);
 
 						String numeroCartela = celula.getDado();
 
@@ -323,59 +295,93 @@ public class ListarCartela_Controller extends ControllerSwing {
 								}
 
 								if(cartela != null) {
-									tela.jTableListaCartelas.setValueAt(false, row, column);
+									if(ValidadorUniversal.check((String)aValue)) {
+										cartela.setPortador((String)aValue);
+									} else {
+										cartela.setPortador("");									
+									}
 
-									EditarCartela_VW editarCartela = new EditarCartela_VW(tela, true);
-									editarCartela.controller.setCartelaEditada(cartela);
-									editarCartela.setVisible(true);
-
-									while(editarCartela.isVisible()) {};
+									gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
 
 									preencherTabela(cartelas);
 								}
-							}		
-						}
-					} else if(column == 5) {						
-						CellType celulaPortador = (CellType) tela.jTableListaCartelas.getValueAt(row, 1);
+							}
+						}						
+					} else if(aValue instanceof Boolean && (boolean)aValue && (column == 3 || column == 4)) {
+						if(column == 3) {
+							CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 1);
 
-						String portador = celulaPortador.getDado();
+							String numeroCartela = celula.getDado();
 
-						if(ValidadorUniversal.check(portador)) {
-							int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover o portador da cartela?");
-
-							if(resp == FuncoesSwing.SIM) {
-								CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 0);
-
-								String numeroCartela = celula.getDado();
+							if(ValidadorUniversal.check(numeroCartela)) {								
+								Cartela cartela = null;
 
 								if(ValidadorUniversal.isListaPreenchida(cartelas)) {
-									for(Cartela cartela: cartelas) {
-										if(cartela.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
-											cartela.setPortador("");
-
-											tela.jTableListaCartelas.setValueAt(false, row, column);
-
-											gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
-
-											preencherTabela(cartelas);
-
+									for(Cartela cartelaCadastrada: cartelas) {
+										if(cartelaCadastrada.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+											cartela = cartelaCadastrada;
 											break;
 										}
 									}
-								}
+
+									if(cartela != null) {
+										tela.jTableListaCartelas.setValueAt(false, row, column);
+
+										EditarCartela_VW editarCartela = new EditarCartela_VW(tela, true);
+										editarCartela.controller.setCartelaEditada(cartela);
+										editarCartela.setVisible(true);
+
+										while(editarCartela.isVisible()) {};
+
+										preencherTabela(cartelas);
+									}
+								}		
 							}
-						} else {
-							tela.jTableListaCartelas.setValueAt(false, row, column);
-						}						
+						} else if(column == 4) {						
+							CellType celulaPortador = (CellType) tela.jTableListaCartelas.getValueAt(row, 1);
+
+							String portador = celulaPortador.getDado();
+
+							if(ValidadorUniversal.check(portador)) {
+								int resp = FuncoesSwing.mostrarMensagemSimNao(tela, "Remover Cartela", "Realmente deseja remover o portador da cartela?");
+
+								if(resp == FuncoesSwing.SIM) {
+									CellType celula = (CellType) tela.jTableListaCartelas.getValueAt(row, 1);
+
+									String numeroCartela = celula.getDado();
+
+									if(ValidadorUniversal.isListaPreenchida(cartelas)) {
+										for(Cartela cartela: cartelas) {
+											if(cartela.getNumeroCartela() == Integer.parseInt(numeroCartela)) {
+												cartela.setPortador("");
+
+												tela.jTableListaCartelas.setValueAt(false, row, column);
+
+												gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelas.txt");
+
+												preencherTabela(cartelas);
+
+												break;
+											}
+										}
+									}
+								}
+							} else {
+								tela.jTableListaCartelas.setValueAt(false, row, column);
+							}						
+						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		};	 
 
 		tela.jTableListaCartelas.setModel(modelo);
-
+		tela.jTableListaCartelas.setRowHeight(50);
+		
 		tela.jTableListaCartelas.getColumnModel().getColumn(0).setPreferredWidth(30);
-		tela.jTableListaCartelas.getColumnModel().getColumn(0).setCellRenderer(new CenterAlignmentCellRenderer());
+		tela.jTableListaCartelas.getColumnModel().getColumn(0).setCellRenderer(new BooleanCellRenderer());
 		tela.jTableListaCartelas.getColumnModel().getColumn(1).setPreferredWidth(50);
 		tela.jTableListaCartelas.getColumnModel().getColumn(1).setCellRenderer(new CenterAlignmentCellRenderer());
 		tela.jTableListaCartelas.getColumnModel().getColumn(2).setPreferredWidth(250);
@@ -383,6 +389,8 @@ public class ListarCartela_Controller extends ControllerSwing {
 		tela.jTableListaCartelas.getColumnModel().getColumn(3).setPreferredWidth(30);
 		tela.jTableListaCartelas.getColumnModel().getColumn(4).setPreferredWidth(30);
 
+		CellType celula = new CellType();
+		
 		for(int i = 0 ; i < quantidadeItens; i++)
 		{
 			Color cor = new Color(255,255,255);
@@ -392,16 +400,16 @@ public class ListarCartela_Controller extends ControllerSwing {
 			} else {
 				cor = new Color(255,255,120);
 			}
+			
+			celula = new CellType();
+			celula.setCor(cor);
+			celula.setDado(String.valueOf(cartelas.get(i).getNumeroCartela()));
+			modelo.setValueAt(celula, i, 1);
 
-			CellType celula1 = new CellType();
-			celula1.setCor(cor);
-			celula1.setDado(String.valueOf(cartelas.get(i).getNumeroCartela()));
-			modelo.setValueAt(celula1, i, 1);
-
-			CellType celula2 = new CellType();
-			celula2.setCor(cor);
-			celula2.setDado(cartelas.get(i).getPortador());
-			modelo.setValueAt(celula2, i, 2);
+			celula = new CellType();
+			celula.setCor(cor);
+			celula.setDado(cartelas.get(i).getPortador());
+			modelo.setValueAt(celula, i, 2);
 		}
 	}
 }
