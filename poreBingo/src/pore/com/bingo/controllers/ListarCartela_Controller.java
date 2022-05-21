@@ -18,8 +18,9 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import pore.com.bingo.model.CartelaDS;
 import pore.com.bingo.model.cartela.Cartela;
-import pore.com.bingo.util.ImpressaoArquivos;
+import pore.com.bingo.util.BingoUtil;
 import pore.com.bingo.util.ValidadorUniversal;
 import pore.com.bingo.util.funcoes.FuncoesData;
 import pore.com.bingo.util.funcoes.FuncoesSwing;
@@ -193,32 +194,32 @@ public class ListarCartela_Controller extends ControllerSwing {
 						findFirst();
 					
 					if(cartelaOpt.isPresent()) {
-						parameters.put(String.valueOf(celula.getDado()), cartelaOpt.get());
+						Cartela cartela = cartelaOpt.get();
+						parameters.put("portador", cartela.getPortador());
+						
+						CartelaDS dataSource = (CartelaDS) CartelaDS.getDataSource();
+						
+						String[] numeros = new String[cartela.getNumeros().size()];
+						dataSource.setNumeros(BingoUtil.convertNumeroCartelaToString(cartela.getNumeros()).toArray(numeros));
+						
+						try {
+							String fileName = TimeUtils.getNow("yyyyMMddHHmmss") + "_cartelas" + ".pdf";
+							String filePath = CAMINHO_DIR_IMP + File.separator + fileName;
+							
+							JasperReport bingoBoardJR = JasperCompileManager.compileReport(getClass().getResourceAsStream(CAMINHO_BINGO_BOARD));
+							JasperPrint print = JasperFillManager.fillReport(bingoBoardJR, parameters, dataSource);
+							
+							JasperExportManager.exportReportToPdfFile(print, filePath);
+							
+							//ImpressaoArquivos.imprimirPDF(filePath);
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+							
+							FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel imprimir as cartelas. Verifique o log de erro.");
+						}
 					}
 				}
-			}
-			
-			if(!ValidadorUniversal.isMapPreenchido(parameters)) {
-				FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel encontrar os parametros para impressao das cartelas.\nVerifique se as cartelas foram importadas corretamente.");
-				
-				return;
-			}
-			
-			try {
-				String fileName = TimeUtils.getNow("yyyyMMddHHmmss") + "_cartelas" + ".pdf";
-				String filePath = CAMINHO_DIR_IMP + File.separator + fileName;
-				
-				JasperReport bingoBoardJR = JasperCompileManager.compileReport(getClass().getResourceAsStream(CAMINHO_BINGO_BOARD));
-				JasperPrint print = JasperFillManager.fillReport(bingoBoardJR, parameters);
-				
-				JasperExportManager.exportReportToPdfFile(print, filePath);
-				
-				//ImpressaoArquivos.imprimirPDF(filePath);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-				FuncoesSwing.mostrarMensagemErro(tela, "Erro", "Nao foi possivel imprimir as cartelas. Verifique o log de erro.");
 			}
 		}
 	}

@@ -1,53 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bingoBoard" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9edb361-92bc-4c7f-9527-4cf5cff20aa4">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.210000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="4d7c2335-e195-4893-b105-2a9a455dfc75"/>
+	<subDataset name="CartelaDS" uuid="79722585-9a18-47d6-b760-4ac3681c9048"/>
+	<parameter name="portador" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<variable name="portador" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="19" y="18" width="518" height="47" uuid="c930589e-3c9f-4294-a4a3-254052db42dd"/>
+				<reportElement x="19" y="18" width="520" height="47" uuid="c930589e-3c9f-4294-a4a3-254052db42dd"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="36"/>
 				</textElement>
-				<text><![CDATA[Poré Bingo]]></text>
+				<text><![CDATA[Poré Bingo 2]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="-95" width="555" height="1" uuid="c696d3e5-d913-4d39-b26f-829af8528d88"/>
+			</line>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="50">
+		<band height="33">
 			<staticText>
-				<reportElement x="37" y="3" width="518" height="47" uuid="f71ea518-be00-4534-9f84-8a389b8cbbe2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="36"/>
+				<reportElement positionType="Float" x="0" y="1" width="60" height="30" uuid="93317639-af53-459e-9887-0632dbe33bb8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Poré Bingo]]></text>
+				<text><![CDATA[Nome:]]></text>
 			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="60" y="1" width="495" height="30" isRemoveLineWhenBlank="true" uuid="dfcee6fd-0277-44bc-9588-87d33808a6e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{portador}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="50">
-			<staticText>
-				<reportElement x="19" y="3" width="518" height="47" uuid="474ea645-30be-4f66-b52f-648046b9001f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="36"/>
-				</textElement>
-				<text><![CDATA[Poré Bingo]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="50">
-			<staticText>
-				<reportElement x="19" y="3" width="518" height="47" uuid="3955a04a-a2c6-473a-8aff-b3fee3a62f12"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="36"/>
-				</textElement>
-				<text><![CDATA[Poré Bingo]]></text>
-			</staticText>
+		<band height="51">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="19" y="0" width="520" height="50" uuid="881485cd-3172-4d57-ab92-38a7aeed92fe"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="CartelaDS" uuid="e0249696-fde7-4c76-8eb7-72dd06de517b">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="d0297a84-5b69-4315-a768-8a634368855e">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="3a55e32e-c6ae-45a7-be1d-de2acef1d06c"/>
+								<text><![CDATA[1xt]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="42b63585-513f-497e-b6b7-502a071352f6">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="bf29f0ac-2bb4-401c-b295-a420570d7dc1"/>
+								<text><![CDATA[1xt]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="d55123ea-e7aa-4a3a-a547-a287222bf4e6">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="06ca8001-bf56-4adb-afa3-c42a2022928e"/>
+								<text><![CDATA[1xt]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="3b298718-5d11-4c6f-b0e8-0013e822acde">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="70c42c9c-0a46-4d15-b184-4217ec4d144e"/>
+								<text><![CDATA[1xt]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="6d54ea75-11dc-4787-bf69-14c18f25993b">
+						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="ce927545-d8ef-449c-b8d1-54708c7387e8"/>
+								<text><![CDATA[1xt]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
 </jasperReport>
