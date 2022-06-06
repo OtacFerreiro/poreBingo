@@ -51,6 +51,8 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         jLabelTotalPortador = new javax.swing.JLabel();
         jLabelNumeroPortador = new javax.swing.JLabel();
         jButtonImprimir = new javax.swing.JButton();
+        jButtonImprimir1 = new javax.swing.JButton();
+        jButtonImprimir2 = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemImportar = new javax.swing.JMenuItem();
@@ -87,14 +89,14 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
 
             },
             new String [] {
-                "", "Nº Cartela", "Portador", "Editar", "Remover"
+                "", "Nº da Cartela", "Portador"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false
+                true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,21 +108,16 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
             }
         });
         jTableListaCartelas.setCellSelectionEnabled(true);
-        jTableListaCartelas.setColumnSelectionAllowed(true);
+        jTableListaCartelas.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jTableListaCartelas.getTableHeader().setResizingAllowed(false);
         jTableListaCartelas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableListaCartelas);
         jTableListaCartelas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         if (jTableListaCartelas.getColumnModel().getColumnCount() > 0) {
-            jTableListaCartelas.getColumnModel().getColumn(0).setMinWidth(30);
-            jTableListaCartelas.getColumnModel().getColumn(0).setMaxWidth(30);
-            jTableListaCartelas.getColumnModel().getColumn(1).setMinWidth(80);
-            jTableListaCartelas.getColumnModel().getColumn(1).setMaxWidth(80);
-            jTableListaCartelas.getColumnModel().getColumn(2).setResizable(false);
-            jTableListaCartelas.getColumnModel().getColumn(3).setMinWidth(70);
-            jTableListaCartelas.getColumnModel().getColumn(3).setMaxWidth(70);
-            jTableListaCartelas.getColumnModel().getColumn(4).setMinWidth(70);
-            jTableListaCartelas.getColumnModel().getColumn(4).setMaxWidth(70);
+            jTableListaCartelas.getColumnModel().getColumn(0).setMinWidth(50);
+            jTableListaCartelas.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTableListaCartelas.getColumnModel().getColumn(1).setMinWidth(100);
+            jTableListaCartelas.getColumnModel().getColumn(1).setMaxWidth(100);
         }
 
         jLabelTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -142,11 +139,25 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
             }
         });
 
+        jButtonImprimir1.setText("Remover");
+        jButtonImprimir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoverActionPerformed(evt);
+            }
+        });
+
+        jButtonImprimir2.setText("Editar");
+        jButtonImprimir2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelTopoLayout = new javax.swing.GroupLayout(jPanelTopo);
         jPanelTopo.setLayout(jPanelTopoLayout);
         jPanelTopoLayout.setHorizontalGroup(
             jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
             .addGroup(jPanelTopoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,14 +168,17 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
                             .addComponent(jLabelNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelTopoLayout.createSequentialGroup()
-                                .addComponent(jTextFieldPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonImprimir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonPesquisar)
-                                .addGap(2, 2, 2)
-                                .addComponent(jButtonImprimir)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jButtonImprimir1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldPortador))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTopoLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,12 +198,14 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonImprimir1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonImprimir2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addGroup(jPanelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldPortador, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,6 +289,14 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
         controller.imprimirCartelas();
     }//GEN-LAST:event_jButtonImprimirActionPerformed
 
+    private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
+        controller.removerPortador();
+    }//GEN-LAST:event_jButtonRemoverActionPerformed
+
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        controller.editarCartela();
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -292,6 +316,8 @@ public class ListarCartela_VW extends javax.swing.JDialog  {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonImprimir;
+    private javax.swing.JButton jButtonImprimir1;
+    private javax.swing.JButton jButtonImprimir2;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JLabel jLabelNumero;
     public javax.swing.JLabel jLabelNumeroPortador;
