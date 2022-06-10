@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -16,6 +17,7 @@ import java.util.List;
 import pore.com.bingo.model.cartela.Cartela;
 import pore.com.bingo.model.cartela.NumeroCartela;
 import pore.com.bingo.util.ValidadorUniversal;
+import pore.com.bingo.util.funcoes.BigDecimalUtils;
 import pore.com.bingo.util.funcoes.FuncoesData;
 
 public abstract class ControllerSwing {
@@ -39,6 +41,9 @@ public abstract class ControllerSwing {
 	public static String CAMINHO_DIR_SORTEIO = CAMINHO_DIR_PADRAO + File.separator + "sorteio";
 	public static String CAMINHO_DIR_CARTELAS = CAMINHO_DIR_PADRAO + File.separator + "cartelas";
 	public static String CAMINHO_DIR_CONFIG = CAMINHO_DIR_PADRAO + File.separator + "conf";
+	public static String CAMINHO_DIR_IMP = CAMINHO_DIR_PADRAO + File.separator + "impressoes";
+	
+	public static String CAMINHO_BINGO_BOARD = "/pore/com/bingo/reports/bingoBoard.jrxml";
 
 	public static int qdadeBolasPorCartela;
 	
@@ -80,6 +85,7 @@ public abstract class ControllerSwing {
 		File dirCartelas = new File(CAMINHO_DIR_CARTELAS);
 		File dirSorteio = new File(CAMINHO_DIR_SORTEIO);
 		File dirConfig = new File(CAMINHO_DIR_CONFIG);
+		File dirImp = new File(CAMINHO_DIR_IMP);
 
 		if(!dirBingo.exists()) {
 			dirBingo.mkdirs();
@@ -99,6 +105,10 @@ public abstract class ControllerSwing {
 
 		if(!dirConfig.exists()) {
 			dirConfig.mkdirs();
+		}
+		
+		if(!dirImp.exists()) {
+			dirImp.mkdirs();
 		}
 	}
 
@@ -131,7 +141,7 @@ public abstract class ControllerSwing {
 	}
 	
 	//IMPORTA DO ARQUIVO EM FORMATO EXTERNO AO SISTEMA
-	public void importarArquivoCartelasGenerico(File file) {
+	public void importarArquivoCartelasGenerico(File file) throws IOException {
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(file));
@@ -143,10 +153,16 @@ public abstract class ControllerSwing {
 
 				String [] cartelaArray = line.split("  -  ");
 
-				if(ValidadorUniversal.isArrayPreenchido(cartelaArray)) {							
+				if(ValidadorUniversal.isArrayPreenchido(cartelaArray) && cartelaArray.length > 1) {							
 					String [] numeros = cartelaArray[1].split(" ");
 
 					if(ValidadorUniversal.isArrayPreenchido(numeros)) {
+						if(BigDecimalUtils.getBigDecimal(cartelaArray[0]).compareTo(BigDecimal.ZERO) <= 0) {
+							System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Nº da cartela invalido.");
+							
+							continue;
+						}
+						
 						Cartela cartela = new Cartela();
 						cartela.setNumeroCartela(Integer.parseInt(cartelaArray[0]));
 
@@ -159,13 +175,13 @@ public abstract class ControllerSwing {
 						}
 
 						if(cartela.getNumeros().size() == qdadeBolasPorCartela) {
-							System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartela Nº" + cartela.getNumeroCartela() + ": numero de bolas corresponde a quantidade informada informado.");
+							System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartela Nº" + cartela.getNumeroCartela() + ": numero de bolas corresponde a quantidade informada.");
 
+							cartelas.add(cartela);
+							
 						} else {
-							System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartela Nº" + cartela.getNumeroCartela() + ": numero de bolas nao corresponde a quantidade informada informado.");
+							System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartela Nº" + cartela.getNumeroCartela() + ": numero de bolas nao corresponde a quantidade informada.");
 						}
-
-						cartelas.add(cartela);								
 					}
 				}
 
@@ -174,18 +190,9 @@ public abstract class ControllerSwing {
 
 			if(ValidadorUniversal.isListaPreenchida(cartelas)) {
 				gerarArquivoCartelasImportadas(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
-				
-				File fileCartelas = new File(CAMINHO_DIR_CARTELAS + File.separator + "cartelasImportadas.txt");
-				
-				if(fileCartelas.exists()) {
-					System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas importadas com sucesso.");					
-				}			
-				
-			} else {
-				System.out.println("[" + FuncoesData.formatarDataComHoraMinutoSegundo(new Date()) + "] - Cartelas nao foram importadas.");
-			}					
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw e;
 		}		
 	}
 	

@@ -151,14 +151,15 @@ public class RealizarSorteio_Controller extends ControllerSwing {
 	}
 	
 	public void gerarArquivoBolasChamadasPorCartela(File file) {
+		LinkedList<Cartela> cartelasSorteios = getCartelasSorteio();
 		
 		//SE TIVER BOLAS CHAMADAS
 		if(ValidadorUniversal.isListaPreenchida(getBolasChamadas())) {
 			
 			//SE TIVER CARTELAS NO SORTEIO
-			if(ValidadorUniversal.isListaPreenchida(getCartelasSorteio())) {
+			if(ValidadorUniversal.isListaPreenchida(cartelasSorteios)) {
 				
-				for(Cartela cartela: getCartelasSorteio()) {
+				for(Cartela cartela: cartelasSorteios) {
 					cartela.setNumerosChamados(new LinkedList<NumeroCartela>());
 				}
 				
@@ -166,7 +167,7 @@ public class RealizarSorteio_Controller extends ControllerSwing {
 				for(Integer bolaChamada: getBolasChamadas()) {
 					
 					//PEGAR A CARTELA
-					for(Cartela cartela: getCartelasSorteio()) {
+					for(Cartela cartela: cartelasSorteios) {
 						
 						//SE A CARTELA TIVER BOLAS
 						if(ValidadorUniversal.isListaPreenchida(cartela.getNumeros())) {
@@ -187,14 +188,16 @@ public class RealizarSorteio_Controller extends ControllerSwing {
 				}				
 			}
 		} else {
-			for(Cartela cartela: getCartelasSorteio()) {
+			for(Cartela cartela: cartelasSorteios) {
 				cartela.setNumerosChamados(new LinkedList<NumeroCartela>());
 			}
 		}
 		
 		String txt = "";
 		
-		for(Cartela cartela: getCartelasSorteio()) {
+		int count = 1;
+		
+		for(Cartela cartela: cartelasSorteios) {
 			if(ValidadorUniversal.check(cartela.getPortador())) {
 				
 				txt += "|" + cartela.getNumeroCartela() + "|" + cartela.getPortador() + "|";
@@ -202,8 +205,14 @@ public class RealizarSorteio_Controller extends ControllerSwing {
 				if(ValidadorUniversal.isListaPreenchida(cartela.getNumerosChamados())) {
 					for(NumeroCartela numero: cartela.getNumerosChamados()) {
 						txt += numero.getNumero() + "|";
-					}					
-				}				
+					}
+					
+					if(cartela.getNumerosChamados().size() >= 25) {
+						txt += " B I N G O | Nº" + count;
+						
+						count++;
+					}
+				}
 				
 				txt += "\n";
 			}

@@ -15,6 +15,10 @@ public class Cartela extends ObjetoGenerico {
 	private LinkedList<NumeroCartela> numerosChamados;
 
 	public String getPortador() {
+		if(portador == null) {
+			portador = "";
+		}
+		
 		return portador;
 	}
 
