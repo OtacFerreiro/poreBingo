@@ -223,8 +223,18 @@ public class ListarCartela_Controller extends ControllerSwing {
 				}
 			}
 			
+			String nomeArquivo = "Cart_" + cartela.getNumeroCartela();
+			
+			if(StringUtils.isNotEmpty(cartela.getPortador())) {
+				nomeArquivo += "_";
+				nomeArquivo += cartela.getPortador().length() > 25 ? cartela.getPortador().substring(0, 25) : cartela.getPortador();
+			}
+			
+			nomeArquivo += ".pdf";
+			
 			BingoBoardPrinter printer = new BingoBoardPrinter();
 			printer.setParameters(parameters);
+			printer.setNomeArquivo(nomeArquivo);
 			
 			Thread t = new Thread(printer);
 			t.start();
